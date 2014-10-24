@@ -1,0 +1,7 @@
+{% for colnr, boxes in dashboard.widgets %}
+    <ul class="connected list {{ colnr }}">
+        {% for box in boxes %}
+            {% include 'plugins/' ~ box.name ~ '.twig' %}
+        {% endfor %}
+    </ul>
+{% endfor %}

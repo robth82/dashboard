@@ -1,0 +1,11 @@
+{
+    "require": {
+        "twig/twig": "1.16.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Robth82\\Dashboard\\": "src/"
+        }
+    }
+
+}

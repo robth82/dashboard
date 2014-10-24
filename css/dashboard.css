@@ -1,0 +1,85 @@
+header, section {
+    display: block;
+}
+
+h1, h2 {
+    text-align: center;
+    font-weight: normal;
+}
+
+.connected {
+    margin: auto;
+    padding: 0;
+    width: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.connected li, .sortable li, .exclude li, .handles li {
+    list-style: none;
+    margin: 5px;
+    padding: 5px;
+
+}
+
+.handles span {
+    cursor: move;
+}
+
+li.disabled {
+    opacity: 0.5;
+}
+
+.sortable.grid li {
+    line-height: 80px;
+    float: left;
+    width: 49%;
+    min-height: 80px;
+    text-align: center;
+}
+
+li.highlight {
+    background: #FEE25F;
+}
+
+#connected {
+    width: 100%;
+    overflow: hidden;
+    margin: auto;
+}
+
+.connected {
+    float: left;
+    width: 49%;
+}
+
+li.sortable-placeholder {
+    border: 1px dashed #CCC;
+    background: none;
+    height: 22px;
+}
+
+.dashboardWidget {
+    border: solid #bbbbaa 1px;
+
+}
+
+.dashboardWidget .header {
+    padding: 5px;
+    height: 22px;
+    background-color: #bbbbaa;;
+}
+
+.dashboardWidget .content {
+    padding: 5px;
+}
+
+.dashboardWidget .header .actions {
+    float: right;
+    cursor: hand;
+
+}
