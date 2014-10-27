@@ -13,11 +13,12 @@ class TableWidget extends Widget
 {
     private $columns;
 
-    function __construct($title, $content)
+    function __construct($options)
     {
-        parent::__construct($title, $content);
+        parent::__construct($options);
         $this->setName('table');
 
+        $content = $this->options['content'];
         $cols = array();
         foreach ($content[0] as $colname => $value) {
             $cols[] = $colname;

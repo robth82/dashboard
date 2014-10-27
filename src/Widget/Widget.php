@@ -9,19 +9,43 @@
 namespace Robth82\Dashboard\Widget;
 
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 class Widget
 {
     private $uniqid;
     private $name;
+    private $description;
     private $title;
     private $content;
+    protected $options;
 
-    function __construct($title, $content)
+    function __construct(array $options)
     {
-        $this->content = $content;
-        $this->title = $title;
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $this->options = $resolver->resolve($options);
+
+        $this->content = $this->options['content'];
+        $this->title = $this->options['title'];
         $this->setName('normal');
         $this->setUniqid(uniqid('db_'));
+    }
+
+    protected function configureOptions(OptionsResolverInterface $resolver)
+    {
+        // ... configure the resolver, you will learn this
+        // in the sections below
+        $resolver->setDefaults(array(
+            'content' => '',
+        ));
+        $resolver->setRequired(array('title'));
+    }
+
+    public function render()
+    {
+        // can be implemented
     }
 
     /**

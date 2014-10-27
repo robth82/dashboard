@@ -1,6 +1,7 @@
 {
     "require": {
-        "twig/twig": "1.16.2"
+        "twig/twig": "1.16.2",
+        "symfony/options-resolver": "v2.4.10"
     },
     "autoload": {
         "psr-4": {

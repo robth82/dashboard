@@ -22,11 +22,21 @@ function dashboardRemoveWidget(widget) {
 }
 
 function dashboardAddWidget(widget) {
-    var html = '<li id="db_5445f530c8302" draggable="true"><div class="dashboardWidget">';
-    html += '<div class="header">Robs dashboard<div class="actions"><div class="action close" onclick="dashboardRemoveWidget(this);">X</div></div></div>';
-    html += '<div class="content">abcde</div></div></div></li>';
+    if (jQuery(widget).val() == '') return;
 
-    jQuery('ul.no1').prepend(html);
-    initDashboard();
-    //alert(html);
+    jQuery.ajax({
+        type: "POST",
+        url: "widget.php",
+        data: { title: jQuery(widget).val()}
+    })
+        .done(function (msg) {
+            html = msg;
+            //alert( "Data Saved: " + msg );
+            jQuery('ul.no1').prepend(html);
+            initDashboard();
+            //alert(html);
+
+            var test = select[0].selectize;
+            test.clear();
+        });
 }

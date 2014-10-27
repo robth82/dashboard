@@ -4,21 +4,7 @@
 
 use \Robth82\Dashboard\Dashboard;
 
-include('vendor\autoload.php');
-
-$config = array();
-
-$dashboard = new Dashboard($config);
-
-
-$loader = new Twig_Loader_Filesystem('twig');
-$twig = new Twig_Environment($loader, array(
-    //'cache' => 'twigCache'
-    'cache' => false,
-    'debug' => true,
-));
-
-$twig->addExtension(new Twig_Extension_Debug());
+include('bootstrap.php');
 
 ?>
 
@@ -43,48 +29,47 @@ $twig->addExtension(new Twig_Extension_Debug());
 </header>
 
 <section id="connected">
-    <input type="button" value="Add widget (not working)" onClick="dashboardAddWidget();"/>
-    <select id="select-beast" style="width: 300px" onchange="console.log(jQuery(this).val());">
+
+    <?php
+
+    $config = array(
+        'no1' => array(
+            //new \Robth82\Dashboard\Widget\TableWidget('Robs table', $test),
+            //new \Robth82\Dashboard\Widget\TableWidget('Robs table', $test),
+            //new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar voorspellingen', 'content' => '<IFRAME SRC="http://gratisweerdata.buienradar.nl/weergadget/index6260.html" NORESIZE SCROLLING=NO HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=300 HEIGHT=190></IFRAME>')),
+            //new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar', 'content' => '<a href="http://www.buienradar.nl" target="_blank"><img border="0" src="http://www.buienradar.nl/images.aspx?jaar=-3&soort=sp-loop"></a>')),
+            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8')),
+            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8'))
+        ),
+        'no2' => array(
+            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8')),
+            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8')),
+            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8'))
+        )
+    );
+
+    ?>
+
+    <select id="select-beast" style="width: 300px" onchange="dashboardAddWidget(this);">
         <option value="">Voeg een widget toe</option>
-        <option value="test">testtest</option>
-        <option value="test2">tes2</option>
+        <?php
+
+        $widgets = $dashboardCollection->getRegisteredWidgets();
+        foreach ($widgets as $widget) {
+            /** @var $widget \Robth82\Dashboard\Widget\Widget */
+            echo '<option value="' . $widget->getTitle() . '">' . $widget->getTitle() . ' </option>';
+        }
+        ?>
+
     </select>
     <script>
-        $('#select-beast').selectize({
+        var select = jQuery('#select-beast').selectize({
 
             sortField: 'text'
         });
     </script>
     <br/>
     <?php
-
-    $test = array(
-        array('col1' => 1, 'col2' => 2, 'col3' => 2, 'col4' => 2),
-        array(11, 12),
-        array(11, 12),
-        array(11, 12),
-        array(11, 12),
-        array(11, 12),
-        array(11, 12),
-        array(11, 12),
-    );
-
-    $config = array(
-        'no1' => array(
-            //new \Robth82\Dashboard\Widget\TableWidget('Robs table', $test),
-            //new \Robth82\Dashboard\Widget\TableWidget('Robs table', $test),
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8'),
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8'),
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8'),
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8')
-        ),
-        'no2' => array(
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8'),
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8'),
-            new \Robth82\Dashboard\Widget\Widget('Robs dashboard', 'wtf8')
-        )
-    );
-
     $dashboard = new Dashboard($config);
 
     $template = $twig->loadTemplate('index.twig');

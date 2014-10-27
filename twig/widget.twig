@@ -8,7 +8,7 @@
         </div>
         <div class="content">
             {% block widgetContent %}
-                {{ box.content }}
+                {{ box.content|raw }}
             {% endblock %}
         </div>
     </div>
