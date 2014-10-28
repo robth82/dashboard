@@ -29,28 +29,10 @@ include('bootstrap.php');
 </header>
 
 <section id="connected">
-
-    <?php
-
-    $config = array(
-        'no1' => array(
-            //new \Robth82\Dashboard\Widget\TableWidget('Robs table', $test),
-            //new \Robth82\Dashboard\Widget\TableWidget('Robs table', $test),
-            //new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar voorspellingen', 'content' => '<IFRAME SRC="http://gratisweerdata.buienradar.nl/weergadget/index6260.html" NORESIZE SCROLLING=NO HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=300 HEIGHT=190></IFRAME>')),
-            //new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar', 'content' => '<a href="http://www.buienradar.nl" target="_blank"><img border="0" src="http://www.buienradar.nl/images.aspx?jaar=-3&soort=sp-loop"></a>')),
-            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8')),
-            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8'))
-        ),
-        'no2' => array(
-            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8')),
-            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8')),
-            new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf8'))
-        )
-    );
-
-    ?>
-
-    <select id="select-beast" style="width: 300px" onchange="dashboardAddWidget(this);">
+    <div>
+        <div style="float:left"
+        ">
+        <select id="select-beast" style="width: 300px; z-index: 100;" onchange="dashboardAddWidget(this);">
         <option value="">Voeg een widget toe</option>
         <?php
 
@@ -62,15 +44,46 @@ include('bootstrap.php');
         ?>
 
     </select>
-    <script>
-        var select = jQuery('#select-beast').selectize({
+    </div>
 
+    <div style="float:right">
+        <select id="select-dashboard" style="width: 300px; z-index: 100;" onchange="changeDashboard(this);">
+            <?php
+            $dashboards = array(
+                'abcd123' => 'Dashboard 1',
+                'abcd124' => 'Dashboard 2'
+            );
+
+            if (isset($_GET['dashboard'])) {
+                $activeDashboard = $_GET['dashboard'];
+            } else {
+                $activeDashboard = key($dashboards);
+            }
+
+
+            foreach ($dashboards as $key => $name) {
+                /** @var $widget \Robth82\Dashboard\Widget\Widget */
+                $selected = ($activeDashboard == $key) ? 'selected' : '';
+                echo '<option ' . $selected . ' value="' . $key . '">' . $name . ' </option>';
+            }
+            ?>
+
+        </select>
+    </div>
+    </div>
+    <div style="clear: both"></div>
+
+    <script>
+        jQuery('#select-dashboard').selectize({
+            sortField: 'text'
+        });
+        var select = jQuery('#select-beast').selectize({
             sortField: 'text'
         });
     </script>
-    <br/>
     <?php
-    $dashboard = new Dashboard($config);
+
+    $dashboard = new Dashboard($activeDashboard);
 
     $template = $twig->loadTemplate('index.twig');
     echo $template->render(array('dashboard' => $dashboard));
@@ -80,9 +93,8 @@ include('bootstrap.php');
 </section>
 
 <script>
-    $(function () {
+    jQuery(function () {
         initDashboard();
-
     });
 </script>
 </body>

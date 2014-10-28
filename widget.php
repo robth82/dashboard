@@ -8,5 +8,25 @@
 
 include('bootstrap.php');
 
-\Robth82\Dashboard\Helper::renderDashboard($twig, $dashboardCollection, $_POST['title']);
+$dashboard = new \Robth82\Dashboard\Dashboard($_POST['id']);
+
+switch ($_GET['action']) {
+    case 'addWidget':
+        $widget = $dashboardCollection->getWidget($_POST['title']);
+        $dashboard->addWidgets('no1', $widget);
+        \Robth82\Dashboard\DashboardHelper::renderDashboard($twig, $widget);
+        break;
+    case 'saveConfig':
+        $config = json_decode($_POST['config']);
+        $dashboard->saveConfig($config);
+        break;
+
+}
+
+
+
+
+
+
+
 

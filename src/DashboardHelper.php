@@ -8,12 +8,10 @@
 
 namespace Robth82\Dashboard;
 
-class Helper
+class DashboardHelper
 {
-    public static function renderDashboard($twig, $widgetCollection, $title)
+    public static function renderDashboard($twig, $widget)
     {
-        $widget = $widgetCollection->getWidget($title);
-
         if ($widget) {
             $template = $twig->loadTemplate('/plugins/' . $widget->getName() . '.twig');
             echo $template->render(array('box' => $widget));
