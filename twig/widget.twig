@@ -3,13 +3,37 @@
         <div class="header">
             {{ box.title }}
             <div class="actions">
-                <div class="action close" onclick="dashboardRemoveWidget(this);">X</div>
+                {% block widgetActions %}
+                    <div class="action refresh" onClick="dashboardRefreshWidget(this);">Refresh</div>
+                    <div class="action close" onclick="dashboardRemoveWidget(this);">X</div>
+                {% endblock %}
             </div>
         </div>
         <div class="content">
-            {% block widgetContent %}
-                {{ box.content|raw }}
-            {% endblock %}
+            {% if box.ajaxLoad and not options.ajax %}
+                Ajaxload
+
+                <script>
+                    $(document).ready(function () {
+                        dashboardRefreshWidgetById('{{ box.uniqid }}');
+                    });
+                </script>
+            {% else %}
+                {% block widgetContent %}
+                    {{ box.content|raw }}
+                {% endblock %}
+            {% if box.refreshInterval != 0 %}
+                <script>
+                    clearTimeout(timer{{ box.uniqid }});
+
+                    var timer{{ box.uniqid }} = setTimeout(
+                            function () {
+                                dashboardRefreshWidgetById('{{ box.uniqid }}');
+                            }, {{ box.refreshInterval * 1000 }});
+                </script>
+            {% endif %}
+
+            {% endif %}
         </div>
     </div>
 </li>

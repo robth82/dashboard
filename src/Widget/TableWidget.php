@@ -18,11 +18,17 @@ class TableWidget extends Widget
         parent::__construct($options);
         $this->setName('table');
 
+
+    }
+
+    public function prepare()
+    {
         $content = $this->options['content'];
         $cols = array();
         foreach ($content[0] as $colname => $value) {
             $cols[] = $colname;
         }
+        //var_dump($cols);
         $this->setColumns($cols);
     }
 

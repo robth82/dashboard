@@ -38,7 +38,7 @@ li.disabled {
 .sortable.grid li {
     line-height: 80px;
     float: left;
-    width: 49%;
+
     min-height: 80px;
     text-align: center;
 }
@@ -55,7 +55,7 @@ li.highlight {
 
 .connected {
     float: left;
-    width: 49%;
+    width: 600px;
 }
 
 li.sortable-placeholder {
@@ -72,7 +72,8 @@ li.sortable-placeholder {
 .dashboardWidget .header {
     padding: 5px;
     height: 22px;
-    background-color: #bbbbaa;;
+    background-color: #bbbbaa;
+    cursor: move;
 }
 
 .dashboardWidget .content {
@@ -83,4 +84,32 @@ li.sortable-placeholder {
     float: right;
     cursor: hand;
 
+}
+
+.dashboardWidget .action {
+    float: left;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.leftBox {
+    float: left;
+
+}
+
+.rightBox {
+    float: right;
+
+}
+
+table.dashbaoardTable {
+    width: 100%;
+}
+
+table.dashbaoardTable tr:nth-child(even) {
+    background-color: #CCC;
+}
+
+table.dashbaoardTable tr:nth-child(odd) {
+    background-color: #FFF;
 }

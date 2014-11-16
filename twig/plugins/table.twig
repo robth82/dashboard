@@ -1,10 +1,10 @@
 {% extends "widget.twig" %}
 
 {% block widgetContent %}
-    <table>
+    <table class="dashbaoardTable">
         <tr>
-            {% for Column in box.Columns %}
-                <th>
+            {% for Column in box.columns %}
+                <th>a
                     {{ Column }}
                 </th>
             {% endfor %}

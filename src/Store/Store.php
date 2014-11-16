@@ -11,7 +11,9 @@ namespace Robth82\Dashboard\Store;
 
 interface Store
 {
-    public function save($id, $config);
+    public function save($id, array $config);
 
     public function load($id);
+
+    public function delete($id);
 } 

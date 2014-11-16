@@ -8,18 +8,32 @@
 
 namespace Robth82\Dashboard\Store;
 
-
+/**
+ * Class SessionStore
+ * @package Robth82\Dashboard\Store
+ */
 class SessionStore implements Store
 {
-    public function save($id, $config)
+    private $sessionName;
+
+    function __construct($sessionName = 'dashboard')
     {
-//        print '<pre>';
-//        echo 'save';
-//        print_r($config);
-//        print '</pre>';
+        $this->sessionName = $sessionName;
+    }
+
+    /**
+     * @param $id
+     * @param array $config
+     */
+    public function save($id, array $config)
+    {
         $_SESSION['dashboard'][$id] = serialize($config);
     }
 
+    /**
+     * @param $id
+     * @return array|mixed
+     */
     public function load($id)
     {
         if (isset($_SESSION['dashboard'][$id])) {
@@ -31,4 +45,13 @@ class SessionStore implements Store
         );
     }
 
-} 
+    /**
+     * @param $id
+     */
+    public function delete($id)
+    {
+        unset($_SESSION['dashboard'][$id]);
+    }
+
+
+}

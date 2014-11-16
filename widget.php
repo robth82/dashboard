@@ -8,7 +8,7 @@
 
 include('bootstrap.php');
 
-$dashboard = new \Robth82\Dashboard\Dashboard($_POST['id']);
+$dashboard = new \Robth82\Dashboard\Dashboard($_REQUEST['dashboardId'], new \Robth82\Dashboard\Store\SessionStore(), $dashboardCollection);
 
 switch ($_GET['action']) {
     case 'addWidget':
@@ -20,6 +20,14 @@ switch ($_GET['action']) {
         $config = json_decode($_POST['config']);
         $dashboard->saveConfig($config);
         break;
+    case 'addDashboard':
+        $_SESSION['dashboards'][uniqid()] = $_POST['option'];
+        break;
+    case 'refreshWidget':
+        $widget = $dashboard->getWidget($_GET['widgetId']);
+        \Robth82\Dashboard\DashboardHelper::renderDashboard($twig, $widget);
+        break;
+
 
 }
 

@@ -9,6 +9,7 @@
 namespace Robth82\Dashboard;
 
 
+use Robth82\Dashboard\Collection\DashboardCollection;
 use Robth82\Dashboard\Store\SessionStore;
 use Robth82\Dashboard\Store\Store;
 use Robth82\Dashboard\Widget\Widget;
@@ -20,7 +21,7 @@ class Dashboard
     private $store;
 
 
-    public function __construct($id, Store $store = null)
+    public function __construct($id, Store $store = null, DashboardCollection $dashboardCollection)
     {
         $this->id = $id;
 
@@ -34,8 +35,17 @@ class Dashboard
 
         foreach ($config as $columnNumber => $widgets) {
             $this->addColumnIfNotExists($columnNumber);
+            /** @var $widget Widget */
             foreach ($widgets as $widget) {
-                $this->addWidgets($columnNumber, $widget);
+                //var_dump($widgets);
+                /** @var $newWidget Widget */
+                //var_dump($widget);
+                $newWidget = $dashboardCollection->getWidget($widget->getTitle());
+                $newWidget->setUniqid($widget->getUniqid());
+                //$newWidget->setUserOptions(array('refresh' => 10));
+                //var_dump($widget);
+                $newWidget->prepare();
+                $this->addWidgets($columnNumber, $newWidget);
             }
         }
     }
@@ -88,9 +98,8 @@ class Dashboard
 
     }
 
-    public function saveConfig($config)
+    public function saveConfig(array $config)
     {
-
         $configNew = array();
 
         foreach ($config as $columnNumber => $widgets) {
@@ -101,10 +110,8 @@ class Dashboard
             }
         }
 
-        //var_dump($configNew);
         $this->setWidgets($configNew);
         $this->save();
-        //die('abc');
     }
 
     public function removeWidget(Widget $widget)
@@ -125,6 +132,7 @@ class Dashboard
 
     function __destruct()
     {
+
         $this->save();
     }
 

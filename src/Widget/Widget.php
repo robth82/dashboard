@@ -20,6 +20,9 @@ class Widget
     private $title;
     private $content;
     protected $options;
+    private $ajaxLoad;
+    private $refreshInterval;
+    private $userOptions;
 
     function __construct(array $options)
     {
@@ -29,8 +32,17 @@ class Widget
 
         $this->content = $this->options['content'];
         $this->title = $this->options['title'];
+        $this->ajaxLoad = $this->options['ajaxLoad'];
+        $this->refreshInterval = $this->options['refreshInterval'];
         $this->setName('normal');
         $this->setUniqid(uniqid('db_'));
+    }
+
+    public function setUserOptions(array $options = array())
+    {
+        $resolver = new OptionsResolver();
+        $this->configureUserOptions($resolver);
+        $this->userOptions = $resolver->resolve($options);
     }
 
     protected function configureOptions(OptionsResolverInterface $resolver)
@@ -39,11 +51,19 @@ class Widget
         // in the sections below
         $resolver->setDefaults(array(
             'content' => '',
+            'ajaxLoad' => false,
+            'refreshInterval' => 0
         ));
+
         $resolver->setRequired(array('title'));
     }
 
-    public function render()
+    protected function configureUserOptions(OptionsResolverInterface $resolver)
+    {
+
+    }
+
+    public function prepare()
     {
         // can be implemented
     }
@@ -61,6 +81,7 @@ class Widget
      */
     public function getContent()
     {
+        $this->prepare();
         return $this->content;
     }
 
@@ -99,7 +120,7 @@ class Widget
     /**
      * @param string $uniqid
      */
-    private function setUniqid($uniqid)
+    public function setUniqid($uniqid)
     {
         $this->uniqid = $uniqid;
     }
@@ -110,6 +131,38 @@ class Widget
     public function getUniqid()
     {
         return $this->uniqid;
+    }
+
+    /**
+     * @param mixed $ajaxLoad
+     */
+    public function setAjaxLoad($ajaxLoad)
+    {
+        $this->ajaxLoad = $ajaxLoad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAjaxLoad()
+    {
+        return $this->ajaxLoad;
+    }
+
+    /**
+     * @param mixed $refreshInterval
+     */
+    public function setRefreshInterval($refreshInterval)
+    {
+        $this->refreshInterval = $refreshInterval;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefreshInterval()
+    {
+        return $this->refreshInterval;
     }
 
 
