@@ -1,3 +1,11 @@
+<script>
+    var jQdashboard;
+
+    jQuery(function () {
+        jQdashboard = jQuery('#{{ dashboard.id }}').dashboard({});
+    });
+</script>
+
 <div class="dashboard" id="{{ dashboard.id }}">
     {% for colnr, boxes in dashboard.widgets %}
         <ul class="connected list {{ colnr }}">

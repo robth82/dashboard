@@ -4,8 +4,8 @@
             {{ box.title }}
             <div class="actions">
                 {% block widgetActions %}
-                    <div class="action refresh" onClick="dashboardRefreshWidget(this);">Refresh</div>
-                    <div class="action close" onclick="dashboardRemoveWidget(this);">X</div>
+                    <div class="action refresh" onClick="jQdashboard.dashboard('refreshWidget', this);;">Refresh</div>
+                    <div class="action close" onclick="jQdashboard.dashboard('removeWidget', this);">X</div>
                 {% endblock %}
             </div>
         </div>
@@ -15,7 +15,8 @@
 
                 <script>
                     $(document).ready(function () {
-                        dashboardRefreshWidgetById('{{ box.uniqid }}');
+                        jQdashboard.dashboard('refreshWidgetById', '{{ box.uniqid }}');
+                        //dashboardRefreshWidgetById();
                     });
                 </script>
             {% else %}
@@ -28,7 +29,7 @@
 
                     var timer{{ box.uniqid }} = setTimeout(
                             function () {
-                                dashboardRefreshWidgetById('{{ box.uniqid }}');
+                                jQdashboard.dashboard('refreshWidgetById', '{{ box.uniqid }}');
                             }, {{ box.refreshInterval * 1000 }});
                 </script>
             {% endif %}

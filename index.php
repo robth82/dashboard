@@ -16,7 +16,7 @@ include('bootstrap.php');
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="js/jquery.sortable.js"></script>
-    <script src="js/dashboard.js"></script>
+    <script src="js/jquery.dashboard.js"></script>
     <script src="js/selectize.min.js"></script>
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
@@ -24,21 +24,15 @@ include('bootstrap.php');
     <script src="http://code.highcharts.com/highcharts-3d.js"></script>
     <script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
 
-
 </head>
-<?php
 
-?>
 <body>
-<header>
-    <h1>Dashboard</h1>
-</header>
-
 <section>
     <div>
         <div class="leftBox">
-            <select id="select-beast" style="width: 300px; z-index: 100;" onchange="dashboardAddWidget(this);">
-                <option value="">Voeg een widget toe</option>
+            <select id="select-beast" style="width: 300px; z-index: 100;"
+                    onchange="jQdashboard.dashboard('addWidget', this);">
+            <option value="">Voeg een widget toe</option>
                 <?php
 
                 $widgets = $dashboardCollection->getRegisteredWidgets();
@@ -103,6 +97,14 @@ include('bootstrap.php');
         var select = jQuery('#select-beast').selectize({
             sortField: 'text'
         });
+
+
+        function changeDashboard(dashboard) {
+            //var dashboardId = jQuery(dashboard).val();
+            if (dashboard != '') {
+                window.location = 'index.php?dashboard=' + dashboard;
+            }
+        }
     </script>
     <?php
 
@@ -115,10 +117,5 @@ include('bootstrap.php');
 
 </section>
 
-<script>
-    jQuery(function () {
-        initDashboard();
-    });
-</script>
 </body>
 </html>
