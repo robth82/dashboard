@@ -1,9 +1,9 @@
 {
-    "name": "robth82/Dashboard",
+    "name": "robth82/dashboard",
     "description": "A simple dashboard implementation.",
     "keywords": ["Dashboard,Widget,wigets"],
     "type": "library",
-    "homepage": "https://github.com/robth82/Dashboard",
+    "homepage": "https://github.com/robth82/dashboard",
     "license": "GPL",
     "authors": [
         {
