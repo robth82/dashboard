@@ -21,7 +21,7 @@
         "psr-4": {
             "Robth82\\Dashboard\\": "src/"
         }
-    }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "master"
