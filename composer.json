@@ -1,8 +1,21 @@
 {
-
+    "name": "robth82/Dashboard",
+    "description": "A simple dashboard implementation.",
+    "keywords": ["Dashboard,Widget,wigets"],
+    "type": "library",
+    "homepage": "https://github.com/robth82/Dashboard",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Rob ter Haar"
+        }
+    ],
     "require": {
         "twig/twig": "1.16.2",
         "symfony/options-resolver": "v2.4.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.2.1"
     },
     "autoload": {
         "psr-4": {
@@ -10,5 +23,9 @@
             "Ireal": ""
         }
     }
-
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    }
 }
