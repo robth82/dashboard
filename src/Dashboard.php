@@ -20,7 +20,6 @@ class Dashboard
     private $widgets = array();
     private $store;
 
-
     public function __construct($id, Store $store = null, DashboardCollection $dashboardCollection)
     {
         $this->id = $id;
@@ -32,6 +31,14 @@ class Dashboard
         }
 
         $config = $this->load();
+
+        if (!is_array($config)) {
+            $config = array(
+                'no1' => array(),
+                'no2' => array(),
+                'no3' => array(),
+            );
+        }
 
         foreach ($config as $columnNumber => $widgets) {
             $this->addColumnIfNotExists($columnNumber);

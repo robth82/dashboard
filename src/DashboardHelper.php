@@ -14,12 +14,8 @@ class DashboardHelper
 {
     public static function renderDashboard($twig, Widget $widget)
     {
-        if ($widget) {
-            $widget->prepare();
-            $template = $twig->loadTemplate('/plugins/' . $widget->getName() . '.twig');
-            echo $template->render(array('box' => $widget, 'options' => array('ajax' => true)));
-        } else {
-            echo 'oops';
-        }
+        $widget->prepare();
+        $template = $twig->loadTemplate('/plugins/' . $widget->getName() . '.twig');
+        echo $template->render(array('box' => $widget, 'options' => array('ajax' => true)));
     }
 }

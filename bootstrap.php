@@ -17,7 +17,7 @@ $config = array();
 $loader = new Twig_Loader_Filesystem('twig');
 
 $twig = new Twig_Environment($loader, array(
-    'cache' => false, //'twigCache',
+    'cache' => 'twigCache',
     'debug' => true
 
 ));

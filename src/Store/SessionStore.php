@@ -39,10 +39,8 @@ class SessionStore implements Store
         if (isset($_SESSION['dashboard'][$id])) {
             return unserialize($_SESSION['dashboard'][$id]);
         }
-        return array(
-            'no1' => array(),
-            'no2' => array()
-        );
+        return false;
+
     }
 
     /**

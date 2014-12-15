@@ -55,7 +55,7 @@ li.highlight {
 
 .connected {
     float: left;
-    width: 600px;
+    width: 33%;
 }
 
 li.sortable-placeholder {
@@ -78,6 +78,7 @@ li.sortable-placeholder {
 
 .dashboardWidget .content {
     padding: 5px;
+    width: 100%;
 }
 
 .dashboardWidget .header .actions {

@@ -4,8 +4,13 @@
             {{ box.title }}
             <div class="actions">
                 {% block widgetActions %}
-                    <div class="action refresh" onClick="jQdashboard.dashboard('refreshWidget', this);;">Refresh</div>
-                    <div class="action close" onclick="jQdashboard.dashboard('removeWidget', this);">X</div>
+                    {% if box.refreshAction %}
+                        <div class="action refresh" onClick="jQdashboard.dashboard('refreshWidget', this);;">Refresh
+                        </div>
+                    {% endif %}
+                    {% if box.closeAction %}
+                        <div class="action close" onclick="jQdashboard.dashboard('removeWidget', this);">X</div>
+                    {% endif %}
                 {% endblock %}
             </div>
         </div>

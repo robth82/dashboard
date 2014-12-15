@@ -6,7 +6,7 @@
             var settings = $.extend({
                 url: 'widget.php',
                 paramSaveConfig: '?action=saveConfig',
-                paramAddWidget: 'widget.php?action=addWidget',
+                paramAddWidget: '?action=addWidget',
                 paramRefreshWidget: '?action=refreshWidget'
 
             }, options || {});

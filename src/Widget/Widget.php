@@ -23,6 +23,8 @@ class Widget
     private $ajaxLoad;
     private $refreshInterval;
     private $userOptions;
+    private $refreshAction;
+    private $closeAction;
 
     function __construct(array $options)
     {
@@ -34,6 +36,9 @@ class Widget
         $this->title = $this->options['title'];
         $this->ajaxLoad = $this->options['ajaxLoad'];
         $this->refreshInterval = $this->options['refreshInterval'];
+        $this->refreshAction = $this->options['refreshAction'];
+        $this->closeAction = $this->options['closeAction'];
+
         $this->setName('normal');
         $this->setUniqid(uniqid('db_'));
     }
@@ -52,7 +57,9 @@ class Widget
         $resolver->setDefaults(array(
             'content' => '',
             'ajaxLoad' => false,
-            'refreshInterval' => 0
+            'refreshInterval' => 0,
+            'refreshAction' => false,
+            'closeAction' => true
         ));
 
         $resolver->setRequired(array('title'));
@@ -164,6 +171,40 @@ class Widget
     {
         return $this->refreshInterval;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCloseAction()
+    {
+        return $this->closeAction;
+    }
+
+    /**
+     * @param mixed $closeAction
+     */
+    public function setCloseAction($closeAction)
+    {
+        $this->closeAction = $closeAction;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRefreshAction()
+    {
+        return $this->refreshAction;
+    }
+
+    /**
+     * @param mixed $refreshAction
+     */
+    public function setRefreshAction($refreshAction)
+    {
+        $this->refreshAction = $refreshAction;
+    }
+
+
 
 
 }

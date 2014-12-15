@@ -22,7 +22,7 @@ $dashboardCollection = new \Robth82\Dashboard\Collection\DashboardCollection();
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar voorspellingen', 'content' => '<IFRAME SRC="http://gratisweerdata.buienradar.nl/weergadget/index6260.html" NORESIZE SCROLLING=NO HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=300 HEIGHT=190></IFRAME>')));
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
     'title' => 'Buienradar',
-    'content' => '<a href="http://www.buienradar.nl" target="_blank"><img border="0" src="http://www.buienradar.nl/images.aspx?jaar=-3&soort=sp-loop"></a>',
+    'content' => '<a href="http://www.buienradar.nl" target="_blank"><img style="width:95%" border="0" src="http://www.buienradar.nl/images.aspx?jaar=-3&soort=sp-loop"></a>',
     'refreshInterval' => (60 * 15)
 
 )));
