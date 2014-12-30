@@ -108,12 +108,16 @@ class Dashboard
     public function saveConfig(array $config)
     {
         $configNew = array();
-
+//var_dump($config);
         foreach ($config as $columnNumber => $widgets) {
             $keyColumn = 'no' . ($columnNumber + 1);
             $configNew[$keyColumn] = array();
             foreach ($widgets as $widgetid) {
-                $configNew[$keyColumn][] = $this->getWidget($widgetid);
+                $widget = $this->getWidget($widgetid);
+                if (!$widget instanceof Widget) {
+                    throw new \Exception('unexpected error');
+                }
+                $configNew[$keyColumn][] = $widget;
             }
         }
 

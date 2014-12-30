@@ -15,10 +15,12 @@ namespace Robth82\Dashboard\Store;
 class SessionStore implements Store
 {
     private $sessionName;
+    private $commit;
 
-    function __construct($sessionName = 'dashboard')
+    function __construct($sessionName = 'dashboard', $commit = false)
     {
         $this->sessionName = $sessionName;
+        $this->commit = $commit;
     }
 
     /**
@@ -27,7 +29,16 @@ class SessionStore implements Store
      */
     public function save($id, array $config)
     {
-        $_SESSION['dashboard'][$id] = serialize($config);
+        if ($this->commit) {
+            @session_start();
+        }
+
+        $_SESSION[$this->sessionName][$id] = serialize($config);
+
+        if ($this->commit) {
+            session_commit();
+        }
+
     }
 
     /**
@@ -36,8 +47,8 @@ class SessionStore implements Store
      */
     public function load($id)
     {
-        if (isset($_SESSION['dashboard'][$id])) {
-            return unserialize($_SESSION['dashboard'][$id]);
+        if (isset($_SESSION[$this->sessionName][$id])) {
+            return unserialize($_SESSION[$this->sessionName][$id]);
         }
         return false;
 

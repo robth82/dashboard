@@ -1,7 +1,7 @@
 {% extends "widget.twig" %}
 
 {% block widgetContent %}
-    <div id="{{ box.uniqid }}Chart" style="height: 400px"></div>
+    <div id="{{ box.uniqid }}Chart" style=" width:500px;"></div>
 
     <script>$(function () {
             var data = [
@@ -36,7 +36,7 @@
                         depth: 35,
                         dataLabels: {
                             enabled: true,
-                            format: '<b>{point.name}</b>: {point.y}',
+                            format: '<b>{point.name}</b>: {point.y}'
                         }
                     }
                 },

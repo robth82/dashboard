@@ -5,7 +5,7 @@
             <div class="actions">
                 {% block widgetActions %}
                     {% if box.refreshAction %}
-                        <div class="action refresh" onClick="jQdashboard.dashboard('refreshWidget', this);;">Refresh
+                        <div class="action refresh" onClick="jQdashboard.dashboard('refreshWidget', this);">Refresh
                         </div>
                     {% endif %}
                     {% if box.closeAction %}
@@ -16,7 +16,6 @@
         </div>
         <div class="content">
             {% if box.ajaxLoad and not options.ajax %}
-                Ajaxload
 
                 <script>
                     $(document).ready(function () {
@@ -30,7 +29,9 @@
                 {% endblock %}
             {% if box.refreshInterval != 0 %}
                 <script>
-                    clearTimeout(timer{{ box.uniqid }});
+                    if (timer{{ box.uniqid }}) {
+                        clearTimeout(timer{{ box.uniqid }});
+                    }
 
                     var timer{{ box.uniqid }} = setTimeout(
                             function () {
