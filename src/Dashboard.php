@@ -32,44 +32,23 @@ class Dashboard
 
         $config = $this->load();
 
-        if (!is_array($config)) {
-            $config = array(
-                'no1' => array(),
-                'no2' => array(),
-                'no3' => array(),
-            );
-        }
-
-        foreach ($config as $columnNumber => $widgets) {
-            $this->addColumnIfNotExists($columnNumber);
+        foreach ($config as $widgets) {
             /** @var $widget Widget */
             foreach ($widgets as $widget) {
-                //var_dump($widgets);
-                /** @var $newWidget Widget */
-                //var_dump($widget);
                 $newWidget = $dashboardCollection->getWidget($widget->getTitle());
                 $newWidget->setUniqid($widget->getUniqid());
-                //$newWidget->setUserOptions(array('refresh' => 10));
-                //var_dump($widget);
                 $newWidget->prepare();
-                $this->addWidgets($columnNumber, $newWidget);
+                $this->addWidgets($newWidget);
             }
-        }
-    }
-
-    private function addColumnIfNotExists($columnNumber)
-    {
-        if (!isset($this->widgets[$columnNumber])) {
-            $this->widgets[$columnNumber] = array();
         }
     }
 
     /**
      * @param array $widgets
      */
-    public function addWidgets($columnNumber, $widgets)
+    public function addWidgets($widgets)
     {
-        $this->widgets[$columnNumber][] = $widgets;
+        $this->widgets[] = $widgets;
 
     }
 
@@ -107,22 +86,7 @@ class Dashboard
 
     public function saveConfig(array $config)
     {
-        $configNew = array();
-//var_dump($config);
-        foreach ($config as $columnNumber => $widgets) {
-            $keyColumn = 'no' . ($columnNumber + 1);
-            $configNew[$keyColumn] = array();
-            foreach ($widgets as $widgetid) {
-                $widget = $this->getWidget($widgetid);
-                if (!$widget instanceof Widget) {
-                    throw new \Exception('unexpected error');
-                }
-                $configNew[$keyColumn][] = $widget;
-            }
-        }
-
-        $this->setWidgets($configNew);
-        $this->save();
+        //TODO
     }
 
     public function removeWidget(Widget $widget)
