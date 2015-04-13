@@ -32,23 +32,29 @@ class Dashboard
 
         $config = $this->load();
 
-        foreach ($config as $widgets) {
+        foreach ($config as $widget) {
             /** @var $widget Widget */
-            foreach ($widgets as $widget) {
-                $newWidget = $dashboardCollection->getWidget($widget->getTitle());
-                $newWidget->setUniqid($widget->getUniqid());
-                $newWidget->prepare();
-                $this->addWidgets($newWidget);
-            }
+            /** @var $newWidget Widget */
+            $newWidget = $dashboardCollection->getWidget($widget->getTitle());
+            $newWidget->setUniqid($widget->getUniqid());
+            //var_dump($widget->getUserOptions());
+            $newWidget->setUserOptions($widget->getUserOptions());
+            //var_dump($newWidget);
+            $newWidget->prepare();
+
+            //$widget->prepare();
+            $this->addWidgets($newWidget);
         }
+
     }
 
     /**
      * @param array $widgets
      */
-    public function addWidgets($widgets)
+    public function addWidgets(Widget $widgets)
     {
-        $this->widgets[] = $widgets;
+        $this->widgets[$widgets->getUniqid()] = $widgets;
+        //$this->save();
 
     }
 
@@ -71,22 +77,38 @@ class Dashboard
 
     public function getWidget($id)
     {
-        foreach ($this->getWidgets() as $col) {
-            foreach ($col as $widget) {
-                //var_dump($widget);
+        foreach ($this->getWidgets() as $widget) {
                 /** @var $widget Widget */
-                if ($widget->getUniqid() === $id) {
-                    return $widget;
-                }
+            if ($widget->getUniqid() === $id) {
+                return $widget;
             }
         }
         return false;
 
     }
 
+    private function transformRawWidgetToWidget(array $rawWidget)
+    {
+        return [
+            'data-gs-x' => $rawWidget['x'],
+            'data-gs-y' => $rawWidget['y'],
+            'data-gs-width' => $rawWidget['width'],
+            'data-gs-height' => $rawWidget['height']
+        ];
+    }
+
     public function saveConfig(array $config)
     {
-        //TODO
+        foreach($config as $rawWidget) {
+            //var_dump($rawWidget);
+            $widget = $this->getWidget($rawWidget['id']);
+            var_dump($widget);
+            $widget->setUserOptions($this->transformRawWidgetToWidget($rawWidget));
+            var_dump($widget);
+            echo '<hr>';
+        }
+        $this->save();
+
     }
 
     public function removeWidget(Widget $widget)
@@ -124,6 +146,8 @@ class Dashboard
     {
         return $this->id;
     }
+
+
 
 
 }

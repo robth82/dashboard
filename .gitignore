@@ -1,2 +1,4 @@
 web/bower_components/
 .idea/workspace.xml
+vendor/
+twigCache/
