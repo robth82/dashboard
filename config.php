@@ -19,6 +19,22 @@ $test = array(
 
 $dashboardCollection = new \Robth82\Dashboard\Collection\DashboardCollection();
 
+$dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\DataWidget([
+    'title' => 'De titel',
+    'data' => [
+        1 => 5,
+        2 => 6,
+        3 => 7,
+        4 => 3,
+        5 => 9,
+        6 => 10,
+        7 => 4,
+        8 => 12,
+
+
+    ]
+]));
+
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar voorspellingen', 'content' => '<IFRAME SRC="http://gratisweerdata.buienradar.nl/weergadget/index6260.html" NORESIZE SCROLLING=NO HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=300 HEIGHT=190></IFRAME>')));
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
     'title' => 'Buienradar',

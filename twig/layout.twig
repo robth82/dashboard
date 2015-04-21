@@ -1,3 +1,4 @@
+{% use 'blocks.twig' %}
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -35,17 +36,44 @@
         /*background: lightgoldenrodyellow;*/
         /*}*/
 
+        .grid-stack > .grid-stack-item > .grid-stack-item-content {
+            overflow: hidden;
+            overflow-y:hidden;
+            overflow-x:hidden;
+        }
+
         .grid-stack-item-content {
             /*color: #2c3e50;*/
             /*text-align: center;*/
             /*background-color: #18bc9c;*/
+            height: 100%;
         }
+
+        .grid-stack-item {
+            /*background-color: red;*/
+        }
+
         .grid-stack-item-widget {
             #margin:10px;
             padding:10px;
         }
 
-        .grid
+        .modal-big {
+            width: 90%;
+            height: 100%
+        }
+
+        .model-big-height {
+            height: 90%
+        }
+
+        .panel {
+            height: 100%;
+        }
+
+        .panel-body {
+            overflow-y: auto;
+        }
     </style>
 
 
@@ -348,6 +376,16 @@
 
 <script src="web/bower_components/lodash/lodash.js"></script>
 <script src="web/bower_components/gridstack/dist/gridstack.js"></script>
+
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/highcharts-more.js"></script>
+<script src="http://code.highcharts.com/highcharts-3d.js"></script>
+<script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
+
+<script src="web/bower_components/flot/jquery.flot.js"></script>
+<script src="web/bower_components/flot/jquery.flot.pie.js"></script>
+<script src="web/bower_components/flot/jquery.flot.stack.js"></script>
+
 <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({
@@ -363,14 +401,11 @@
             cell_height: 30,
             vertical_margin: 10,
             handle: '.grid-stack-item-content',
-            draggable  : {handle: '.move-widget', scroll: true, appendTo: 'body'}
+            draggable  : {handle: '.move-widget', scroll: true, appendTo: 'body'},
+//            float : true
 
         };
         $('.grid-stack').gridstack(options);
-
-        $('#addWidget').bind('click', function() {
-            alert('test');
-        });
 
         $('.grid-stack').on('change', function (e, items) {
 
@@ -378,7 +413,6 @@
                 var id = $(el.el).attr('data-widget-id');
                 //el = $(el);
                 //var node = el.data('_gridstack_node');
-                console.log(el);
                 return {
                     id: id,
                     x: el.x,
@@ -387,18 +421,17 @@
                     height: el.height
                 };
             });
-//            console.log(items);
             $.ajax({
                 method: "POST",
                 url: "widget.php?action=saveConfig",
                 data: 'data=' + JSON.stringify(res)
             }).done(function (msg) {
-                alert("Data Saved: " + msg);
+                //alert("Data Saved: " + msg);
             });
         });
     });
-
 </script>
+    {% block javascript %}{% endblock %}
 
 </body>
 

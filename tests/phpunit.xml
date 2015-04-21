@@ -1,0 +1,19 @@
+<phpunit bootstrap="bootstrap.php"
+	colors="false"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	stopOnFailure="false"
+    backupGlobals="false">
+	<selenium>
+		<browser name="Internet Explorer" browser="*iexplore" />
+		<browser name="Firefox" browser="*firefox" />
+	</selenium>
+	<testsuites>
+		<testsuite name="unitTests">
+			<directory suffix="Test.php">Dashboard</directory>
+			<directory suffix="Test.php">Store</directory>
+		</testsuite>
+	</testsuites>
+
+</phpunit>

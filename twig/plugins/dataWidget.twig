@@ -1,0 +1,81 @@
+{% extends "widget.twig" %}
+
+{% set javascript %}
+{#<script>#}
+$(function() {
+
+var data = [
+    {% for item, value in widget.data %}
+        ['{{ item }}', {{ value }}]{% if not loop.last %},
+    {% endif %}
+    {% endfor %}
+];
+
+    $("#{{ widget.uniqid }}_graph").bind("click", function () {
+        $.plot("#placeholder", [data]);
+    });
+
+    $("#{{ widget.uniqid }}_piegraph").bind("click", function () {
+        $.plot('#placeholder', data, {
+                    series: {
+                        pie: {
+                            show: true
+                        }
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true
+                    }
+                }
+        );
+    });
+
+    $("#{{ widget.uniqid }}_stackgraph").bind("click", function () {
+        var stack = 0,
+        bars = true,
+        lines = false,
+        steps = false;
+
+        $.plot("#placeholder", [data], {
+            series: {
+                stack: stack,
+                lines: {
+                    show: lines,
+                    fill: true,
+                    steps: steps
+                },
+                bars: {
+                    show: bars,
+                    barWidth: 0.6
+                }
+            }
+        });
+
+    });
+
+
+
+// Add the Flot version string to the footer
+
+});
+{% endset %}
+
+{% block widgetContent %}
+    <div id="placeholder" class="demo-placeholder" style="height: 90%"></div>
+    {{ addJavascript(javascript)  }}
+{% endblock %}
+
+{% block widgetHeaderRight %}
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" type="button" aria-expanded="false">
+        Type
+        <span class="caret"></span>
+    </button>
+    <ul role="menu" class="dropdown-menu pull-right">
+        <li><a href="#" id="{{ widget.uniqid }}_table">Tabel</a></li>
+        <li><a href="#" id="{{ widget.uniqid }}_graph">Grafiek</a></li>
+        <li><a href="#" id="{{ widget.uniqid }}_piegraph">Taart grafiek</a></li>
+        <li><a href="#" id="{{ widget.uniqid }}_stackgraph">Bar grafiek</a></li>
+    </ul>
+</div>
+{% endblock %}

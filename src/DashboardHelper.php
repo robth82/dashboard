@@ -12,10 +12,13 @@ use Robth82\Dashboard\Widget\Widget;
 
 class DashboardHelper
 {
-    public static function renderDashboard($twig, Widget $widget)
+    public static function renderDashboard(\Twig_Environment $twig, Widget $widget)
     {
         $widget->prepare();
         $template = $twig->loadTemplate('/plugins/' . $widget->getName() . '.twig');
-        echo $template->render(array('box' => $widget, 'options' => array('ajax' => true)));
+        $html = $template->render(array('widget' => $widget, 'options' => array('ajax' => true)));
+        $javascript = Helpers\JavascriptLoader::getScript();
+        echo json_encode(['html' => $html, 'javascript' => $javascript]);
+        //echo ;
     }
 }

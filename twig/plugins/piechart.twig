@@ -1,53 +1,55 @@
 {% extends "widget.twig" %}
 
-{% block widgetContent %}
-    <div id="{{ box.uniqid }}Chart" style=" width:500px;"></div>
+{% set javascript %}
+    $(function () {
+        var data = [
+            {% for item, value in widget.data %}
+            ['{{ item }}', {{ value }}]{% if not loop.last %},
+            {% endif %}
+            {% endfor %}
+        ];
 
-    <script>$(function () {
-            var data = [
-                {% for item, value in box.data %}
-                ['{{ item }}', {{ value }}]{% if not loop.last %},
-                {% endif %}
-                {% endfor %}
-            ];
-
-            jQuery('#{{ box.uniqid }}Chart').highcharts({
-                chart: {
+        jQuery('#{{ widget.uniqid }}Chart').highcharts({
+            chart: {
+                type: 'pie',
+                spacingTop: 0,
+                spacingBottom: 0,
+                marginTop: 0,
+                marginbottom: 0,
+                margin: 0,
+            },
+            title: {
+                text: ''
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage:.1f}%)'
+            },
+            credits: {
+                enabled: false
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    //depth: 35,
+                    dataLabels: {
+                        enabled: false,
+                        format: '<b>{point.name}</b>: {point.y}'
+                    }
+                }
+            },
+            series: [
+                {
                     type: 'pie',
-                    options3d: {
-                        enabled: true,
-                        alpha: 45,
-                        beta: 0
-                    }
-                },
-                title: {
-                    text: '{{ box.titleLong }}'
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.y}</b> ({point.percentage:.1f}%)'
-                },
-                credits: {
-                    enabled: false
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        depth: 35,
-                        dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.y}'
-                        }
-                    }
-                },
-                series: [
-                    {
-                        type: 'pie',
-                        name: 'Browser share',
-                        data: data
-                    }
-                ]
-            });
+                    name: '',
+                    data: data
+                }
+            ]
         });
-    </script>
+    });
+{% endset %}
+
+{% block widgetContent %}
+    <div id="{{ widget.uniqid }}Chart" width="100%"></div>
+    {{ addJavascript(javascript)  }}
 {% endblock %}

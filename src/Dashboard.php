@@ -10,6 +10,7 @@ namespace Robth82\Dashboard;
 
 
 use Robth82\Dashboard\Collection\DashboardCollection;
+use Robth82\Dashboard\Collection\DashboardCollectionInterface;
 use Robth82\Dashboard\Store\SessionStore;
 use Robth82\Dashboard\Store\Store;
 use Robth82\Dashboard\Widget\Widget;
@@ -19,9 +20,11 @@ class Dashboard
     private $id;
     private $widgets = array();
     private $store;
+    private $dashboardCollection;
 
-    public function __construct($id, Store $store = null, DashboardCollection $dashboardCollection)
+    public function __construct($id, Store $store = null, DashboardCollectionInterface $dashboardCollection)
     {
+        $this->dashboardCollection = $dashboardCollection;
         $this->id = $id;
 
         if ($store === null) {
@@ -31,30 +34,37 @@ class Dashboard
         }
 
         $config = $this->load();
+        if($config === false) {
+            return;
+        }
 
-        foreach ($config as $widget) {
-            /** @var $widget Widget */
-            /** @var $newWidget Widget */
-            $newWidget = $dashboardCollection->getWidget($widget->getTitle());
-            $newWidget->setUniqid($widget->getUniqid());
-            //var_dump($widget->getUserOptions());
-            $newWidget->setUserOptions($widget->getUserOptions());
-            //var_dump($newWidget);
-            $newWidget->prepare();
+        if(count($config) > 0) {
 
-            //$widget->prepare();
-            $this->addWidgets($newWidget);
+            foreach ($config as $widget) {
+                /** @var $widget Widget */
+                /** @var $newWidget Widget */
+                $newWidget = clone $dashboardCollection->getWidget($widget->getTitle());
+                $newWidget->setUniqid($widget->getUniqid());
+                //var_dump($widget->getUserOptions());
+                $newWidget->setUserOptions($widget->getUserOptions());
+                $newWidget->prepare();
+
+                //$widget->prepare();
+                $this->addWidgets($newWidget);
+            }
         }
 
     }
 
+
     /**
-     * @param array $widgets
+     * @param Widget $widget
      */
-    public function addWidgets(Widget $widgets)
+    public function addWidgets(Widget $widget)
     {
-        $this->widgets[$widgets->getUniqid()] = $widgets;
-        //$this->save();
+        //var_dump($this->widgets);
+        $this->widgets[$widget->getUniqid()] = $widget;
+        $this->save();
 
     }
 
@@ -102,10 +112,10 @@ class Dashboard
         foreach($config as $rawWidget) {
             //var_dump($rawWidget);
             $widget = $this->getWidget($rawWidget['id']);
-            var_dump($widget);
+//            var_dump($widget);
             $widget->setUserOptions($this->transformRawWidgetToWidget($rawWidget));
-            var_dump($widget);
-            echo '<hr>';
+//            var_dump($widget);
+//            echo '<hr>';
         }
         $this->save();
 
@@ -113,12 +123,8 @@ class Dashboard
 
     public function removeWidget(Widget $widget)
     {
-
-    }
-
-    public function moveWidget(Widget $widget, $columnNumber, $posistion)
-    {
-
+        unset($this->widgets[$widget->getUniqid()]);
+        $this->save();
     }
 
     protected function save()
@@ -147,7 +153,12 @@ class Dashboard
         return $this->id;
     }
 
-
-
+    /**
+     * @return DashboardCollection
+     */
+    public function getDashboardCollection()
+    {
+        return $this->dashboardCollection;
+    }
 
 }

@@ -7,10 +7,17 @@
         <div class="panel panel-default ">
             <div class="panel-heading move-widget" >
                 <i class="fa fa-bell fa-fw"></i> {{ widget.title }}
+                <div class="pull-right">
+                    {% block widgetHeaderRight %}{% endblock %}
+                    <i onClick="removeWidget(this);" class="fa fa-times fa-fw widget-close"></i>
+                </div>
             </div>
             <!-- /.panel-heading -->
-            <div class="panel-body">
+            <div class="panel-body" style="height:100%">
                 {#{{ dump(widget) }}#}
+                {#data-gs-x="{{ widget.dataGsX }}" data-gs-y="{{ widget.dataGsY }}"#}
+                {#data-gs-width="{{ widget.dataGsWidth }}" data-gs-height="{{ widget.dataGsHeight }}"#}
+                {#data-widget-id="{{ widget.uniqid }}"#}
                 {% block widgetContent %}
                     {{ widget.content|raw }}
                 {% endblock %}

@@ -9,16 +9,21 @@
 namespace Robth82\Dashboard\Widget;
 
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Robth82\Dashboard\Helpers\JavascriptLoader;
 
 class ClockWidget extends Widget
 {
     function __construct(array $options)
     {
         parent::__construct($options);
-        $clockhtml = '
-<div id="' . $this->getUniqid() . 'chart' . '" style="width: 400px; margin: 0 auto"></div>
-<script>
+    }
+
+    public function prepare()
+    {
+        $clockhtml = '<div id="' . $this->getUniqid() . 'chart' . '" style="width: 100%; margin: 0 auto"></div>';
+
+        $this->setContent($clockhtml);
+        $js = '
 $(function () {
 
     /**
@@ -196,8 +201,10 @@ $.extend($.easing, {
         return a*Math.pow(2,-10*t) * Math.sin( (t*d-s)*(2*Math.PI)/p ) + c + b;
     }
 });
-</script>';
-        $this->setContent($clockhtml);
+';
+        JavascriptLoader::addScript($js);
+
     }
+
 
 } 

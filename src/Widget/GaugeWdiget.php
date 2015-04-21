@@ -9,8 +9,6 @@
 namespace Robth82\Dashboard\Widget;
 
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 class GaugeWdiget extends Widget
 {
     function __construct(array $options)

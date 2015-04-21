@@ -1,9 +1,10 @@
 <?php
+
 use Robth82\Dashboard\Dashboard;
 
 include('bootstrap.php');
 
-
+//session_destroy();
 $dashboard = new Dashboard('3', new \Robth82\Dashboard\Store\SessionStore(), $dashboardCollection);
 
 $widget = $dashboardCollection->getWidget('Buienradar');
@@ -15,6 +16,10 @@ $widget = $dashboardCollection->getWidget('Users');
 
 
 $template = $twig->loadTemplate('dashboard.twig');
-echo $template->render(array('dashboard' => $dashboard));
+
+$template = $template->render(array('dashboard' => $dashboard, 'generatedJavascript' => \Robth82\Dashboard\Helpers\javascriptLoader::getScript()));
+//var_dump(\Robth82\Dashboard\Helpers\javascriptLoader::getScript());
+
+echo $template;
 
 ?>

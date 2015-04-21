@@ -16,7 +16,6 @@ class Widget
 {
     private $uniqid;
     private $name;
-    private $description;
     private $title;
 
     private $data_gs_x;

@@ -2,13 +2,36 @@
 
 
 {% block content %}
+    <!-- Modal -->
+    <div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-big">
+            <div class="modal-content model-big-height">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    {%  for widget in dashboard.dashboardCollection.registeredWidgets  %}
+
+                        <a href="#" onclick="addWidget('{{ widget.title }}');">{{ widget.title }}</a><Br/>
+                        {#{{ dump(widget) }}#}
+                    {%  endfor  %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    {#<button type="button" class="btn btn-primary">Save changes</button>#}
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8">
                 <h1 class="page-header">H2gO Dashboard</h1>
             </div>
             <div class="col-lg-4">
-                <div class="pull-right"><button id="addWidget" type="button" class="btn btn-default">Widget Toevoegen</button></div>
+                <div class="pull-right"><button id="addWidget" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Widget Toevoegen</button></div>
             </div>
         </div>
         <div class="row">
@@ -16,122 +39,41 @@
                 {% for widget in dashboard.widgets %}
                             {% include 'plugins/' ~ widget.name ~ '.twig' %}
                 {% endfor %}
-
-                {#<div class="grid-stack-item"#}
-                     {#data-gs-x="8" data-gs-y="0"#}
-                     {#data-gs-width="4" data-gs-height="2">#}
-                    {#<div class="grid-stack-item-content">#}
-                        {#<div class="panel panel-default  move-widget">#}
-                            {#<div class="panel-heading">#}
-                                {#<i class="fa fa-bell fa-fw"></i> Notifications Panel#}
-                            {#</div>#}
-                            {#<!-- /.panel-heading -->#}
-                            {#<div class="panel-body">#}
-                                {#body#}
-                            {#</div>#}
-                            {#<!-- /.panel-body -->#}
-                            {#<div class="panel-footer">#}
-                                {#<i class=""></i>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-
-
-                {#<div class="grid-stack-item"#}
-                     {#data-gs-x="4" data-gs-y="0"#}
-                     {#data-gs-width="4" data-gs-height="4">#}
-                    {#<div class="grid-stack-item-content">#}
-                        {#<div class="panel panel-default  move-widget">#}
-                            {#<div class="panel-heading">#}
-                                {#<i class="fa fa-bell fa-fw"></i> Notifications Panel#}
-                            {#</div>#}
-                            {#<!-- /.panel-heading -->#}
-                            {#<div class="panel-body">#}
-                                {#<div class="list-group">#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-comment fa-fw"></i> New Comment#}
-                                    {#<span class="pull-right text-muted small"><em>4 minutes ago</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-twitter fa-fw"></i> 3 New Followers#}
-                                    {#<span class="pull-right text-muted small"><em>12 minutes ago</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-envelope fa-fw"></i> Message Sent#}
-                                    {#<span class="pull-right text-muted small"><em>27 minutes ago</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-tasks fa-fw"></i> New Task#}
-                                    {#<span class="pull-right text-muted small"><em>43 minutes ago</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-upload fa-fw"></i> Server Rebooted#}
-                                    {#<span class="pull-right text-muted small"><em>11:32 AM</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-bolt fa-fw"></i> Server Crashed!#}
-                                    {#<span class="pull-right text-muted small"><em>11:13 AM</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-warning fa-fw"></i> Server Not Responding#}
-                                    {#<span class="pull-right text-muted small"><em>10:57 AM</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-shopping-cart fa-fw"></i> New Order Placed#}
-                                    {#<span class="pull-right text-muted small"><em>9:49 AM</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                    {#<a href="#" class="list-group-item">#}
-                                        {#<i class="fa fa-money fa-fw"></i> Payment Received#}
-                                    {#<span class="pull-right text-muted small"><em>Yesterday</em>#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                {#</div>#}
-                                {#<!-- /.list-group -->#}
-                                {#<a href="#" class="btn btn-default btn-block">View All Alerts</a>#}
-                            {#</div>#}
-                            {#<!-- /.panel-body -->#}
-                            {#<div class="panel-footer">#}
-                                {#<i class=""></i>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-
-
-
-                {#<div class="grid-stack-item"#}
-                     {#data-gs-x="5" data-gs-y="9"#}
-                     {#data-gs-width="4" data-gs-height="4">#}
-                    {#<div class="grid-stack-item-content">#}
-                        {#<div class="panel panel-default">#}
-                            {#<div class="panel-heading move-widget">#}
-                                {#<i class="fa fa-bell fa-fw"></i> Notifications aaaaa#}
-                            {#</div>#}
-                            {#<!-- /.panel-heading -->#}
-                            {#<div class="panel-body">#}
-
-                                {#<!-- /.table-responsive -->#}
-
-                            {#</div>#}
-                            {#<!-- /.panel-body -->#}
-                            {#<div class="panel-footer">#}
-                                {#<i class=""></i>#}
-                            {#</div>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-
             </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        function addWidget(title) {
+            $.ajax({
+                method: "GET",
+                dataType: "json",
+                url: "widget.php?action=addWidget" + '&title=' + title
+            }).done(function (msg) {
+                var grid = $('.grid-stack').data('gridstack');
+                grid.add_widget(msg.html);
+                $('#myModal').modal('toggle');
+                eval(msg.javascript);
+                //alert("Data Saved: " + msg);
+            });
+
+        }
+
+        function removeWidget(element) {
+            $.ajax({
+                method: "GET",
+                url: "widget.php?action=removeWidget" + '&widgetId=' + jQuery(element).closest('.grid-stack-item').attr('data-widget-id')
+            }).done(function() {
+                var grid = $('.grid-stack').data('gridstack');
+                grid.remove_widget(jQuery(element).closest('.grid-stack-item'));
+            });
+
+        }
+    </script>
+    <script>
+    {{ getJavascript()|raw }}
+    </script>
 {% endblock %}
