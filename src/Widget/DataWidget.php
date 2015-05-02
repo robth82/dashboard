@@ -33,6 +33,9 @@ class DataWidget extends Widget {
     protected function configureUserOptions(OptionsResolverInterface $resolver)
     {
         parent::configureUserOptions($resolver);
+
+        $resolver->setAllowedValues(['mode' => ['table', 'graph', 'pie', 'bar']]);
+
         $resolver->setDefaults([
             'mode' => 'table'
         ]);
