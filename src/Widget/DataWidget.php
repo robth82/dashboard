@@ -21,7 +21,7 @@ class DataWidget extends Widget {
         $this->setName('dataWidget');
 
         $this->setData($options['data']);
-        $this->setRefreshInterval(30);
+        $this->setRefreshInterval(5);
     }
 
     protected function configureOptions(OptionsResolverInterface $resolver)
@@ -33,12 +33,12 @@ class DataWidget extends Widget {
     protected function configureUserOptions(OptionsResolverInterface $resolver)
     {
         parent::configureUserOptions($resolver);
-
-        $resolver->setAllowedValues(['mode' => ['table', 'graph', 'pie', 'bar']]);
-
         $resolver->setDefaults([
             'mode' => 'table'
         ]);
+
+        $resolver->setAllowedValues(['mode' => ['table', 'graph', 'pie', 'bar']]);
+
     }
 
 

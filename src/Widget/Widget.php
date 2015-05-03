@@ -30,6 +30,7 @@ class Widget
     private $userOptions = array();
     private $refreshAction;
     private $closeAction;
+    private $timestampNextRefresh = null;
 
     function __construct(array $options)
     {
@@ -43,6 +44,8 @@ class Widget
         $this->refreshInterval = $this->options['refreshInterval'];
         $this->refreshAction = $this->options['refreshAction'];
         $this->closeAction = $this->options['closeAction'];
+
+
 
         $this->setName('normal');
         $this->setUniqid(uniqid('db_'));
@@ -261,7 +264,15 @@ class Widget
         return $this->data_gs_y;
     }
 
-
-
+    /**
+     * @return int
+     */
+    public function getTimestampNextRefresh()
+    {
+        if($this->refreshInterval > 0) {
+            return time() + $this->refreshInterval;
+        }
+        return 0;
+    }
 
 }

@@ -32,7 +32,8 @@ $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\DataWidget([
         8 => 12,
 
 
-    ]
+    ],
+    'refreshAction' => true
 ]));
 
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'Nu.nl', 'content' => '<IFRAME SRC="http://www.nu.nl" NORESIZE SCROLLING=yes HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=100% HEIGHT=100%></IFRAME>')));
@@ -48,8 +49,9 @@ $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
 
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
     'title' => 'Users',
-    'content' => '<div class="table-responsive"><table class="table"><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Username</th></tr></thead><tbody><tr class="success"><td>1</td><td>Mark</td><td>Otto</td><td>@mdo</td></tr><tr class="info"><td>2</td><td>Jacob</td><td>Thornton</td><td>@fat</td></tr><tr class="warning"><td>3</td><td>Larry</td><td>the Bird</td><td>@twitter</td></tr><tr class="danger"><td>4</td><td>John</td><td>Smith</td><td>@jsmith</td></tr></tbody></table></div>',
-    'refreshInterval' => (60 * 15)
+    'content' => uniqid() . '<div class="table-responsive"><table class="table"><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Username</th></tr></thead><tbody><tr class="success"><td>1</td><td>Mark</td><td>Otto</td><td>@mdo</td></tr><tr class="info"><td>2</td><td>Jacob</td><td>Thornton</td><td>@fat</td></tr><tr class="warning"><td>3</td><td>Larry</td><td>the Bird</td><td>@twitter</td></tr><tr class="danger"><td>4</td><td>John</td><td>Smith</td><td>@jsmith</td></tr></tbody></table></div>',
+    'refreshInterval' => 30,
+    'refreshAction' => true
 
 )));
 

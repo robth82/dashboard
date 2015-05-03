@@ -1,7 +1,7 @@
 <div class="grid-stack-item"
      data-gs-x="{{ widget.dataGsX }}" data-gs-y="{{ widget.dataGsY }}"
      data-gs-width="{{ widget.dataGsWidth }}" data-gs-height="{{ widget.dataGsHeight }}"
-     data-widget-id="{{ widget.uniqid }}">
+     data-widget-id="{{ widget.uniqid }}" timestampNextRefresh="{{ widget.timestampNextRefresh }}">
 
     <div class="grid-stack-item-content">
         <div class="panel panel-default ">
@@ -9,23 +9,47 @@
                 <i class="fa fa-bell fa-fw"></i> {{ widget.title }}
                 <div class="pull-right">
                     {% block widgetHeaderRight %}{% endblock %}
-                    <i onClick="removeWidget(this);" class="fa fa-times fa-fw widget-close"></i>
+                    {% if widget.refreshAction %}
+                        <i onClick="jQueryDashboard.dashboard('refreshWidget', this);" class="fa fa-times fa-fw fa-refresh"></i>
+                    {% endif %}
+                    <i onClick="jQueryDashboard.dashboard('removeWidget', this);" class="fa fa-times fa-fw widget-close"></i>
                 </div>
             </div>
-            <!-- /.panel-heading -->
+            {#<!-- /.panel-heading -->#}
             <div class="panel-body" style="height:100%">
-                {#{{ dump(widget) }}#}
-                {#data-gs-x="{{ widget.dataGsX }}" data-gs-y="{{ widget.dataGsY }}"#}
-                {#data-gs-width="{{ widget.dataGsWidth }}" data-gs-height="{{ widget.dataGsHeight }}"#}
-                {#data-widget-id="{{ widget.uniqid }}"#}
                 {% block widgetContent %}
                     {{ widget.content|raw }}
                 {% endblock %}
             </div>
-            <!-- /.panel-body -->
+            {#<!-- /.panel-body -->#}
             <div class="panel-footer">
                 <i class=""></i>
             </div>
         </div>
     </div>
 </div>
+
+{% set javascript %}
+{#<script>#}
+
+    {#$(function () {#}
+        {#if (timer{{ widget.uniqid }}) {#}
+            {#//clearTimeout(timer{{ widget.uniqid }});#}
+            {#clearInterval(timer{{ widget.uniqid }});#}
+            {#clearInterval(timer{{ widget.uniqid }});#}
+        {#}#}
+
+        {#var timer{{ widget.uniqid }} = setInterval(#}
+                {#function () {#}
+                    {#if (jQueryDashboard.dashboard('canRefresh')) {#}
+                        {#jQueryDashboard.dashboard('refreshWidgetById', '{{ widget.uniqid }}');#}
+                        {#clearInterval(timer{{ widget.uniqid }});#}
+                    {#}#}
+                {#}, {{ widget.refreshInterval * 1000 }});#}
+    {#});#}
+
+{#</script>#}
+
+{% endset %}
+
+{{ addJavascript(javascript)  }}

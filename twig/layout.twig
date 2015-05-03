@@ -371,20 +371,7 @@
 <!-- Custom Theme JavaScript -->
 <script src="web/dist/js/sb-admin-2.js"></script>
 
-<script src="web/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="web/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-<script src="web/bower_components/lodash/lodash.js"></script>
-<script src="web/bower_components/gridstack/dist/gridstack.js"></script>
-
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/highcharts-more.js"></script>
-<script src="http://code.highcharts.com/highcharts-3d.js"></script>
-<script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
-
-<script src="web/bower_components/flot/jquery.flot.js"></script>
-<script src="web/bower_components/flot/jquery.flot.pie.js"></script>
-<script src="web/bower_components/flot/jquery.flot.stack.js"></script>
+{% block javascriptIncludes %}{% endblock %}
 
 <script>
     $(document).ready(function() {
@@ -395,43 +382,7 @@
     });
 </script>
 
-<script type="text/javascript">
-    $(function () {
-        var options = {
-            cell_height: 30,
-            vertical_margin: 10,
-            handle: '.grid-stack-item-content',
-            draggable  : {handle: '.move-widget', scroll: true, appendTo: 'body'},
-//            float : true
-
-        };
-        $('.grid-stack').gridstack(options);
-
-        $('.grid-stack').on('change', function (e, items) {
-
-            res = _.map(items, function (el) {
-                var id = $(el.el).attr('data-widget-id');
-                //el = $(el);
-                //var node = el.data('_gridstack_node');
-                return {
-                    id: id,
-                    x: el.x,
-                    y: el.y,
-                    width: el.width,
-                    height: el.height
-                };
-            });
-            $.ajax({
-                method: "POST",
-                url: "widget.php?action=saveConfig",
-                data: 'data=' + JSON.stringify(res)
-            }).done(function (msg) {
-                //alert("Data Saved: " + msg);
-            });
-        });
-    });
-</script>
-    {% block javascript %}{% endblock %}
+{% block javascript %}{% endblock %}
 
 </body>
 

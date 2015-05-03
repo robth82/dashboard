@@ -12,11 +12,17 @@ var data = [
 ];
 
     $("#{{ widget.uniqid }}_graph").bind("click", function () {
-        $.plot("#placeholder", [data]);
+        {% if widget.userOptions.mode != 'graph' %}
+        jQueryDashboard.dashboard('setUserOption', this, 'mode', 'graph');
+        {% endif %}
+        $.plot("#{{ widget.uniqid }}_placeholder", [data]);
     });
 
     $("#{{ widget.uniqid }}_piegraph").bind("click", function () {
-        $.plot('#placeholder', data, {
+        {% if widget.userOptions.mode != 'pie' %}
+            jQueryDashboard.dashboard('setUserOption', this, 'mode', 'pie');
+        {% endif %}
+        $.plot('#{{ widget.uniqid }}_placeholder', data, {
                     series: {
                         pie: {
                             show: true
@@ -31,12 +37,15 @@ var data = [
     });
 
     $("#{{ widget.uniqid }}_stackgraph").bind("click", function () {
+        {% if widget.userOptions.mode != 'bar' %}
+            jQueryDashboard.dashboard('setUserOption', this, 'mode', 'bar');
+        {% endif %}
         var stack = 0,
         bars = true,
         lines = false,
         steps = false;
 
-        $.plot("#placeholder", [data], {
+        $.plot("#{{ widget.uniqid }}_placeholder", [data], {
             series: {
                 stack: stack,
                 lines: {
@@ -53,12 +62,30 @@ var data = [
 
     });
 
+{% if widget.userOptions.mode == 'table' %}
+    $("#{{ widget.uniqid }}_table").trigger('click');
+{% endif %}
+
+{% if widget.userOptions.mode == 'graph' %}
+    $("#{{ widget.uniqid }}_graph").trigger('click');
+{% endif %}
+
+{% if widget.userOptions.mode == 'pie' %}
+    $("#{{ widget.uniqid }}_piegraph").trigger('click');
+{% endif %}
+
+{% if widget.userOptions.mode == 'bar' %}
+    $("#{{ widget.uniqid }}_stackgraph").trigger('click');
+{% endif %}
 
 });
+
+
+
 {% endset %}
 
 {% block widgetContent %}
-    <div id="placeholder" class="demo-placeholder" style="height: 90%"></div>
+    <div id="{{ widget.uniqid }}_placeholder" class="demo-placeholder" style="height: 90%"></div>
     {{ addJavascript(javascript)  }}
 {% endblock %}
 

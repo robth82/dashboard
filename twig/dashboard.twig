@@ -1,5 +1,24 @@
 {% extends "layout.twig" %}
 
+{% block javascriptIncludes %}
+    <script src="web/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="web/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+    <script src="web/bower_components/lodash/lodash.js"></script>
+    <script src="web/bower_components/gridstack/dist/gridstack.js"></script>
+    <script src="web/dist/js/jquery.dashboard.js"></script>
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/highcharts-more.js"></script>
+    <script src="http://code.highcharts.com/highcharts-3d.js"></script>
+    <script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
+
+    <script src="web/bower_components/flot/jquery.flot.js"></script>
+    <script src="web/bower_components/flot/jquery.flot.pie.js"></script>
+    <script src="web/bower_components/flot/jquery.flot.stack.js"></script>
+{% endblock %}
+
+
 
 {% block content %}
     <!-- Modal -->
@@ -13,7 +32,7 @@
                 <div class="modal-body">
                     {%  for widget in dashboard.dashboardCollection.registeredWidgets  %}
 
-                        <a href="#" onclick="addWidget('{{ widget.title }}');">{{ widget.title }}</a><Br/>
+                        <a href="#" onclick="jQueryDashboard.dashboard('addWidget', '{{ widget.title }}');">{{ widget.title }}</a><Br/>
                         {#{{ dump(widget) }}#}
                     {%  endfor  %}
                 </div>
@@ -31,11 +50,15 @@
                 <h1 class="page-header">H2gO Dashboard</h1>
             </div>
             <div class="col-lg-4">
-                <div class="pull-right"><button id="addWidget" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Widget Toevoegen</button></div>
+                <div class="pull-right">
+                    <button id="addWidget" type="button" class="btn btn-primary btn-lg" data-toggle="modal"
+                            data-target="#myModal">Widget Toevoegen
+                    </button>
+                </div>
             </div>
         </div>
         <div class="row">
-            <div class="grid-stack">
+            <div id="dashboard" class="grid-stack">
                 {% for widget in dashboard.widgets %}
                             {% include 'plugins/' ~ widget.name ~ '.twig' %}
                 {% endfor %}
@@ -47,31 +70,7 @@
 
 {% block javascript %}
     <script>
-        function addWidget(title) {
-            $.ajax({
-                method: "GET",
-                dataType: "json",
-                url: "widget.php?action=addWidget" + '&title=' + title
-            }).done(function (msg) {
-                var grid = $('.grid-stack').data('gridstack');
-                grid.add_widget(msg.html);
-                $('#myModal').modal('toggle');
-                eval(msg.javascript);
-                //alert("Data Saved: " + msg);
-            });
-
-        }
-
-        function removeWidget(element) {
-            $.ajax({
-                method: "GET",
-                url: "widget.php?action=removeWidget" + '&widgetId=' + jQuery(element).closest('.grid-stack-item').attr('data-widget-id')
-            }).done(function() {
-                var grid = $('.grid-stack').data('gridstack');
-                grid.remove_widget(jQuery(element).closest('.grid-stack-item'));
-            });
-
-        }
+        var jQueryDashboard = jQuery('#dashboard').dashboard();
     </script>
     <script>
     {{ getJavascript()|raw }}

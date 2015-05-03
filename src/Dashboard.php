@@ -107,15 +107,29 @@ class Dashboard
         ];
     }
 
+    private function transformUserOptions(array $rawWidget)
+    {
+        return [
+            $rawWidget['option'] => $rawWidget['value']
+        ];
+    }
+
     public function saveConfig(array $config)
     {
         foreach($config as $rawWidget) {
-            //var_dump($rawWidget);
             $widget = $this->getWidget($rawWidget['id']);
-//            var_dump($widget);
-            $widget->setUserOptions($this->transformRawWidgetToWidget($rawWidget));
-//            var_dump($widget);
-//            echo '<hr>';
+
+            switch ($rawWidget['method']) {
+                case 'widgetConf':
+                    $userOptions = $this->transformRawWidgetToWidget($rawWidget);
+                    break;
+                case 'userOptions':
+                    $userOptions = $this->transformUserOptions($rawWidget);
+                    break;
+                default:
+                    throw new \Exception('Method not supported');
+            }
+            $widget->setUserOptions(array_merge($widget->getUserOptions(), $userOptions));
         }
         $this->save();
 
