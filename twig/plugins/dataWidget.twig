@@ -13,9 +13,47 @@ var data = [
 
     $("#{{ widget.uniqid }}_graph").bind("click", function () {
         {% if widget.userOptions.mode != 'graph' %}
-        jQueryDashboard.dashboard('setUserOption', this, 'mode', 'graph');
+            jQueryDashboard.dashboard('setUserOption', this, 'mode', 'graph');
         {% endif %}
-        $.plot("#{{ widget.uniqid }}_placeholder", [data]);
+        $.plot("#{{ widget.uniqid }}_placeholder", [
+                { data: data, label: "test"},
+
+                ], {
+            series: {
+                lines: {
+                    show: true
+                },
+                points: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true,
+                clickable: true
+            }
+        });
+        $("<div id='tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #fdd",
+            padding: "2px",
+            "background-color": "#fee",
+            opacity: 0.80
+        }).appendTo("body");
+
+        $("#{{ widget.uniqid }}_placeholder").bind("plothover", function (event, pos, item) {
+                if (item) {
+                    var x = item.datapoint[0].toFixed(2),
+                            y = item.datapoint[1].toFixed(2);
+
+                    $("#tooltip").html(item.series.label + ': ' + y)
+                            .css({top: item.pageY+5, left: item.pageX+5})
+                            .fadeIn(200);
+                } else {
+                    $("#tooltip").hide();
+                }
+
+        });
     });
 
     $("#{{ widget.uniqid }}_piegraph").bind("click", function () {
@@ -80,7 +118,7 @@ var data = [
 
 });
 
-
+{#</script>#}
 
 {% endset %}
 
