@@ -16,15 +16,21 @@ class Widget
 {
     private $uniqid;
     private $name;
-    private $description;
     private $title;
+
+    private $data_gs_x;
+    private $data_gs_y;
+    private $data_gs_width;
+    private $data_gs_height;
+
     private $content;
     protected $options;
     private $ajaxLoad;
     private $refreshInterval;
-    private $userOptions;
+    private $userOptions = array();
     private $refreshAction;
     private $closeAction;
+    private $timestampNextRefresh = null;
 
     function __construct(array $options)
     {
@@ -39,6 +45,8 @@ class Widget
         $this->refreshAction = $this->options['refreshAction'];
         $this->closeAction = $this->options['closeAction'];
 
+
+
         $this->setName('normal');
         $this->setUniqid(uniqid('db_'));
     }
@@ -48,7 +56,22 @@ class Widget
         $resolver = new OptionsResolver();
         $this->configureUserOptions($resolver);
         $this->userOptions = $resolver->resolve($options);
+
+        $this->data_gs_x = $this->userOptions['data-gs-x'];
+        $this->data_gs_y = $this->userOptions['data-gs-y'];
+        $this->data_gs_width = $this->userOptions['data-gs-width'];
+        $this->data_gs_height = $this->userOptions['data-gs-height'];
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUserOptions()
+    {
+        return (is_null($this->userOptions)) ? [] : $this->userOptions;
+    }
+
+
 
     protected function configureOptions(OptionsResolverInterface $resolver)
     {
@@ -59,7 +82,7 @@ class Widget
             'ajaxLoad' => false,
             'refreshInterval' => 0,
             'refreshAction' => false,
-            'closeAction' => true
+            'closeAction' => true,
         ));
 
         $resolver->setRequired(array('title'));
@@ -67,7 +90,12 @@ class Widget
 
     protected function configureUserOptions(OptionsResolverInterface $resolver)
     {
-
+        $resolver->setDefaults([
+            'data-gs-x' => 0,
+            'data-gs-y' => 0,
+            'data-gs-width' => 4,
+            'data-gs-height' => 5,
+        ]);
     }
 
     public function prepare()
@@ -204,7 +232,47 @@ class Widget
         $this->refreshAction = $refreshAction;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDataGsHeight()
+    {
+        return $this->data_gs_height;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getDataGsWidth()
+    {
+        return $this->data_gs_width;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getDataGsX()
+    {
+        return $this->data_gs_x;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDataGsY()
+    {
+        return $this->data_gs_y;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimestampNextRefresh()
+    {
+        if($this->refreshInterval > 0) {
+            return time() + $this->refreshInterval;
+        }
+        return 0;
+    }
 
 }

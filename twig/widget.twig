@@ -1,46 +1,55 @@
-<li id="{{ box.uniqid }}" class="widget">
-    <div class="dashboardWidget">
-        <div class="header">
-            {{ box.title }}
-            <div class="actions">
-                {% block widgetActions %}
-                    {% if box.refreshAction %}
-                        <div class="action refresh" onClick="jQdashboard.dashboard('refreshWidget', this);">Refresh
-                        </div>
+<div class="grid-stack-item"
+     data-gs-x="{{ widget.dataGsX }}" data-gs-y="{{ widget.dataGsY }}"
+     data-gs-width="{{ widget.dataGsWidth }}" data-gs-height="{{ widget.dataGsHeight }}"
+     data-widget-id="{{ widget.uniqid }}" timestampNextRefresh="{{ widget.timestampNextRefresh }}">
+
+    <div class="grid-stack-item-content">
+        <div class="panel panel-default ">
+            <div class="panel-heading move-widget" >
+                <i class="fa fa-bell fa-fw"></i> {{ widget.title }}
+                <div class="pull-right">
+                    {% block widgetHeaderRight %}{% endblock %}
+                    {% if widget.refreshAction %}
+                        <i onClick="jQueryDashboard.dashboard('refreshWidget', this);" class="fa fa-times fa-fw fa-refresh"></i>
                     {% endif %}
-                    {% if box.closeAction %}
-                        <div class="action close" onclick="jQdashboard.dashboard('removeWidget', this);">X</div>
-                    {% endif %}
+                    <i onClick="jQueryDashboard.dashboard('removeWidget', this);" class="fa fa-times fa-fw widget-close"></i>
+                </div>
+            </div>
+            {#<!-- /.panel-heading -->#}
+            <div class="panel-body" style="height:100%">
+                {% block widgetContent %}
+                    {{ widget.content|raw }}
                 {% endblock %}
             </div>
-        </div>
-        <div class="content">
-            {% if box.ajaxLoad and not options.ajax %}
-
-                <script>
-                    $(document).ready(function () {
-                        jQdashboard.dashboard('refreshWidgetById', '{{ box.uniqid }}');
-                        //dashboardRefreshWidgetById();
-                    });
-                </script>
-            {% else %}
-                {% block widgetContent %}
-                    {{ box.content|raw }}
-                {% endblock %}
-            {% if box.refreshInterval != 0 %}
-                <script>
-                    if (timer{{ box.uniqid }}) {
-                        clearTimeout(timer{{ box.uniqid }});
-                    }
-
-                    var timer{{ box.uniqid }} = setTimeout(
-                            function () {
-                                jQdashboard.dashboard('refreshWidgetById', '{{ box.uniqid }}');
-                            }, {{ box.refreshInterval * 1000 }});
-                </script>
-            {% endif %}
-
-            {% endif %}
+            {#<!-- /.panel-body -->#}
+            <div class="panel-footer">
+                <i class=""></i>
+            </div>
         </div>
     </div>
-</li>
+</div>
+
+{% set javascript %}
+{#<script>#}
+
+    {#$(function () {#}
+        {#if (timer{{ widget.uniqid }}) {#}
+            {#//clearTimeout(timer{{ widget.uniqid }});#}
+            {#clearInterval(timer{{ widget.uniqid }});#}
+            {#clearInterval(timer{{ widget.uniqid }});#}
+        {#}#}
+
+        {#var timer{{ widget.uniqid }} = setInterval(#}
+                {#function () {#}
+                    {#if (jQueryDashboard.dashboard('canRefresh')) {#}
+                        {#jQueryDashboard.dashboard('refreshWidgetById', '{{ widget.uniqid }}');#}
+                        {#clearInterval(timer{{ widget.uniqid }});#}
+                    {#}#}
+                {#}, {{ widget.refreshInterval * 1000 }});#}
+    {#});#}
+
+{#</script>#}
+
+{% endset %}
+
+{{ addJavascript(javascript)  }}

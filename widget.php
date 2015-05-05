@@ -8,17 +8,28 @@
 
 include('bootstrap.php');
 
-$dashboard = new \Robth82\Dashboard\Dashboard($_REQUEST['dashboardId'], new \Robth82\Dashboard\Store\SessionStore(), $dashboardCollection);
+$dashboard = new \Robth82\Dashboard\Dashboard('3', new \Robth82\Dashboard\Store\SessionStore(), $dashboardCollection);
 
 switch ($_GET['action']) {
     case 'addWidget':
-        $widget = $dashboardCollection->getWidget($_POST['title']);
-        $dashboard->addWidgets('no1', $widget);
+        /** @var \Robth82\Dashboard\Widget\Widget $widget */
+        $widget = $dashboardCollection->getWidget($_GET['title']);
+        $widget->setUserOptions();
+
+        $dashboard->addWidgets($widget);
         \Robth82\Dashboard\DashboardHelper::renderDashboard($twig, $widget);
         break;
+    case 'removeWidget':
+        /** @var \Robth82\Dashboard\Widget\Widget $widget */
+        //$widget = $dashboardCollection->getWidget($_GET['title']);
+        //$widget->setUserOptions();
+        $widget = $dashboard->getWidget($_GET['widgetId']);
+        $dashboard->removeWidget($widget);
+        //\Robth82\Dashboard\DashboardHelper::renderDashboard($twig, $widget);
+        break;
     case 'saveConfig':
-        $config = json_decode($_POST['config']);
-        $dashboard->saveConfig($config);
+        $data = json_decode($_POST['data'], true);
+        $dashboard->saveConfig($data);
         break;
     case 'addDashboard':
         $_SESSION['dashboards'][uniqid()] = $_POST['option'];

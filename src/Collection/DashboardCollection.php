@@ -11,7 +11,7 @@ namespace Robth82\Dashboard\Collection;
 
 use Robth82\Dashboard\Widget\Widget;
 
-class   DashboardCollection
+class DashboardCollection implements DashboardCollectionInterface
 {
     private $collection = array();
 
@@ -30,6 +30,10 @@ class   DashboardCollection
         return $this->collection;
     }
 
+    /**
+     * @param $title
+     * @return bool | Widget
+     */
     public function getWidget($title)
     {
         $id = self::titleExists($title, $this->collection);

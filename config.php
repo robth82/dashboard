@@ -19,6 +19,26 @@ $test = array(
 
 $dashboardCollection = new \Robth82\Dashboard\Collection\DashboardCollection();
 
+$dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\DataWidget([
+    'title' => 'De titel',
+    'data' => [
+        1 => 5,
+        2 => 6,
+        3 => 7,
+        4 => 3,
+        5 => 9,
+        6 => 10,
+        7 => 4,
+        8 => 12,
+
+
+    ],
+    'refreshAction' => true
+]));
+
+$dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'Nu.nl', 'content' => '<IFRAME SRC="http://www.nu.nl" NORESIZE SCROLLING=yes HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=100% HEIGHT=100%></IFRAME>')));
+$dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'schema', 'content' => '<IFRAME SRC="https://wve.h2go.nl/intranet/index.php?page=schema&locatieid=13881&view=6822" NORESIZE SCROLLING=yes HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=100% HEIGHT=100%></IFRAME>')));
+
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'Buienradar voorspellingen', 'content' => '<IFRAME SRC="http://gratisweerdata.buienradar.nl/weergadget/index6260.html" NORESIZE SCROLLING=NO HSPACE=0 VSPACE=0 FRAMEBORDER=0 MARGINHEIGHT=0 MARGINWIDTH=0 WIDTH=300 HEIGHT=190></IFRAME>')));
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
     'title' => 'Buienradar',
@@ -26,6 +46,15 @@ $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
     'refreshInterval' => (60 * 15)
 
 )));
+
+$dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array(
+    'title' => 'Users',
+    'content' => uniqid() . '<div class="table-responsive"><table class="table"><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Username</th></tr></thead><tbody><tr class="success"><td>1</td><td>Mark</td><td>Otto</td><td>@mdo</td></tr><tr class="info"><td>2</td><td>Jacob</td><td>Thornton</td><td>@fat</td></tr><tr class="warning"><td>3</td><td>Larry</td><td>the Bird</td><td>@twitter</td></tr><tr class="danger"><td>4</td><td>John</td><td>Smith</td><td>@jsmith</td></tr></tbody></table></div>',
+    'refreshInterval' => 30,
+    'refreshAction' => true
+
+)));
+
 //$dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget('Buienradar', array('content' => '<a href="http://www.buienradar.nl" target="_blank"><img border="0" src="http://www.buienradar.nl/images.aspx?jaar=-3&soort=sp-loop"></a>')));
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\Widget(array('title' => 'Robs dashboard', 'content' => 'wtf82')));
 $dashboardCollection->registerWidget(new \Robth82\Dashboard\Widget\TableWidget(array('title' => 'Robs table', 'content' => $test)));

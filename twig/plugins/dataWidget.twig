@@ -1,0 +1,143 @@
+{% extends "widget.twig" %}
+
+{% set javascript %}
+{#<script>#}
+$(function() {
+
+var data = [
+    {% for item, value in widget.data %}
+        ['{{ item }}', {{ value }}]{% if not loop.last %},
+    {% endif %}
+    {% endfor %}
+];
+
+    $("#{{ widget.uniqid }}_graph").bind("click", function () {
+        {% if widget.userOptions.mode != 'graph' %}
+            jQueryDashboard.dashboard('setUserOption', this, 'mode', 'graph');
+        {% endif %}
+        $.plot("#{{ widget.uniqid }}_placeholder", [
+                { data: data, label: "test"},
+
+                ], {
+            series: {
+                lines: {
+                    show: true
+                },
+                points: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true,
+                clickable: true
+            }
+        });
+        $("<div id='tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #fdd",
+            padding: "2px",
+            "background-color": "#fee",
+            opacity: 0.80
+        }).appendTo("body");
+
+        $("#{{ widget.uniqid }}_placeholder").bind("plothover", function (event, pos, item) {
+                if (item) {
+                    var x = item.datapoint[0].toFixed(2),
+                            y = item.datapoint[1].toFixed(2);
+
+                    $("#tooltip").html(item.series.label + ': ' + y)
+                            .css({top: item.pageY+5, left: item.pageX+5})
+                            .fadeIn(200);
+                } else {
+                    $("#tooltip").hide();
+                }
+
+        });
+    });
+
+    $("#{{ widget.uniqid }}_piegraph").bind("click", function () {
+        {% if widget.userOptions.mode != 'pie' %}
+            jQueryDashboard.dashboard('setUserOption', this, 'mode', 'pie');
+        {% endif %}
+        $.plot('#{{ widget.uniqid }}_placeholder', data, {
+                    series: {
+                        pie: {
+                            show: true
+                        }
+                    },
+                    grid: {
+                        hoverable: true,
+                        clickable: true
+                    }
+                }
+        );
+    });
+
+    $("#{{ widget.uniqid }}_stackgraph").bind("click", function () {
+        {% if widget.userOptions.mode != 'bar' %}
+            jQueryDashboard.dashboard('setUserOption', this, 'mode', 'bar');
+        {% endif %}
+        var stack = 0,
+        bars = true,
+        lines = false,
+        steps = false;
+
+        $.plot("#{{ widget.uniqid }}_placeholder", [data], {
+            series: {
+                stack: stack,
+                lines: {
+                    show: lines,
+                    fill: true,
+                    steps: steps
+                },
+                bars: {
+                    show: bars,
+                    barWidth: 0.6
+                }
+            }
+        });
+
+    });
+
+{% if widget.userOptions.mode == 'table' %}
+    $("#{{ widget.uniqid }}_table").trigger('click');
+{% endif %}
+
+{% if widget.userOptions.mode == 'graph' %}
+    $("#{{ widget.uniqid }}_graph").trigger('click');
+{% endif %}
+
+{% if widget.userOptions.mode == 'pie' %}
+    $("#{{ widget.uniqid }}_piegraph").trigger('click');
+{% endif %}
+
+{% if widget.userOptions.mode == 'bar' %}
+    $("#{{ widget.uniqid }}_stackgraph").trigger('click');
+{% endif %}
+
+});
+
+{#</script>#}
+
+{% endset %}
+
+{% block widgetContent %}
+    <div id="{{ widget.uniqid }}_placeholder" class="demo-placeholder" style="height: 90%"></div>
+    {{ addJavascript(javascript)  }}
+{% endblock %}
+
+{% block widgetHeaderRight %}
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" type="button" aria-expanded="false">
+        Type
+        <span class="caret"></span>
+    </button>
+    <ul role="menu" class="dropdown-menu pull-right">
+        <li><a href="#" id="{{ widget.uniqid }}_table">Tabel</a></li>
+        <li><a href="#" id="{{ widget.uniqid }}_graph">Grafiek</a></li>
+        <li><a href="#" id="{{ widget.uniqid }}_piegraph">Taart grafiek</a></li>
+        <li><a href="#" id="{{ widget.uniqid }}_stackgraph">Bar grafiek</a></li>
+    </ul>
+</div>
+{% endblock %}

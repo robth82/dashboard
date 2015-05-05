@@ -10,6 +10,7 @@ namespace Robth82\Dashboard;
 
 
 use Robth82\Dashboard\Collection\DashboardCollection;
+use Robth82\Dashboard\Collection\DashboardCollectionInterface;
 use Robth82\Dashboard\Store\SessionStore;
 use Robth82\Dashboard\Store\Store;
 use Robth82\Dashboard\Widget\Widget;
@@ -19,9 +20,11 @@ class Dashboard
     private $id;
     private $widgets = array();
     private $store;
+    private $dashboardCollection;
 
-    public function __construct($id, Store $store = null, DashboardCollection $dashboardCollection)
+    public function __construct($id, Store $store = null, DashboardCollectionInterface $dashboardCollection)
     {
+        $this->dashboardCollection = $dashboardCollection;
         $this->id = $id;
 
         if ($store === null) {
@@ -31,45 +34,37 @@ class Dashboard
         }
 
         $config = $this->load();
-
-        if (!is_array($config)) {
-            $config = array(
-                'no1' => array(),
-                'no2' => array(),
-                'no3' => array(),
-            );
+        if($config === false) {
+            return;
         }
 
-        foreach ($config as $columnNumber => $widgets) {
-            $this->addColumnIfNotExists($columnNumber);
-            /** @var $widget Widget */
-            foreach ($widgets as $widget) {
-                //var_dump($widgets);
+        if(count($config) > 0) {
+
+            foreach ($config as $widget) {
+                /** @var $widget Widget */
                 /** @var $newWidget Widget */
-                //var_dump($widget);
-                $newWidget = $dashboardCollection->getWidget($widget->getTitle());
+                $newWidget = clone $dashboardCollection->getWidget($widget->getTitle());
                 $newWidget->setUniqid($widget->getUniqid());
-                //$newWidget->setUserOptions(array('refresh' => 10));
-                //var_dump($widget);
+                //var_dump($widget->getUserOptions());
+                $newWidget->setUserOptions($widget->getUserOptions());
                 $newWidget->prepare();
-                $this->addWidgets($columnNumber, $newWidget);
+
+                //$widget->prepare();
+                $this->addWidgets($newWidget);
             }
         }
+
     }
 
-    private function addColumnIfNotExists($columnNumber)
-    {
-        if (!isset($this->widgets[$columnNumber])) {
-            $this->widgets[$columnNumber] = array();
-        }
-    }
 
     /**
-     * @param array $widgets
+     * @param Widget $widget
      */
-    public function addWidgets($columnNumber, $widgets)
+    public function addWidgets(Widget $widget)
     {
-        $this->widgets[$columnNumber][] = $widgets;
+        //var_dump($this->widgets);
+        $this->widgets[$widget->getUniqid()] = $widget;
+        $this->save();
 
     }
 
@@ -92,47 +87,58 @@ class Dashboard
 
     public function getWidget($id)
     {
-        foreach ($this->getWidgets() as $col) {
-            foreach ($col as $widget) {
-                //var_dump($widget);
+        foreach ($this->getWidgets() as $widget) {
                 /** @var $widget Widget */
-                if ($widget->getUniqid() === $id) {
-                    return $widget;
-                }
+            if ($widget->getUniqid() === $id) {
+                return $widget;
             }
         }
         return false;
 
     }
 
+    private function transformRawWidgetToWidget(array $rawWidget)
+    {
+        return [
+            'data-gs-x' => $rawWidget['x'],
+            'data-gs-y' => $rawWidget['y'],
+            'data-gs-width' => $rawWidget['width'],
+            'data-gs-height' => $rawWidget['height']
+        ];
+    }
+
+    private function transformUserOptions(array $rawWidget)
+    {
+        return [
+            $rawWidget['option'] => $rawWidget['value']
+        ];
+    }
+
     public function saveConfig(array $config)
     {
-        $configNew = array();
-//var_dump($config);
-        foreach ($config as $columnNumber => $widgets) {
-            $keyColumn = 'no' . ($columnNumber + 1);
-            $configNew[$keyColumn] = array();
-            foreach ($widgets as $widgetid) {
-                $widget = $this->getWidget($widgetid);
-                if (!$widget instanceof Widget) {
-                    throw new \Exception('unexpected error');
-                }
-                $configNew[$keyColumn][] = $widget;
-            }
-        }
+        foreach($config as $rawWidget) {
+            $widget = $this->getWidget($rawWidget['id']);
 
-        $this->setWidgets($configNew);
+            switch ($rawWidget['method']) {
+                case 'widgetConf':
+                    $userOptions = $this->transformRawWidgetToWidget($rawWidget);
+                    break;
+                case 'userOptions':
+                    $userOptions = $this->transformUserOptions($rawWidget);
+                    break;
+                default:
+                    throw new \Exception('Method not supported');
+            }
+            $widget->setUserOptions(array_merge($widget->getUserOptions(), $userOptions));
+        }
         $this->save();
+
     }
 
     public function removeWidget(Widget $widget)
     {
-
-    }
-
-    public function moveWidget(Widget $widget, $columnNumber, $posistion)
-    {
-
+        unset($this->widgets[$widget->getUniqid()]);
+        $this->save();
     }
 
     protected function save()
@@ -161,5 +167,12 @@ class Dashboard
         return $this->id;
     }
 
+    /**
+     * @return DashboardCollection
+     */
+    public function getDashboardCollection()
+    {
+        return $this->dashboardCollection;
+    }
 
 }
