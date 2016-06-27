@@ -74,7 +74,7 @@
                 vertical_margin: 10,
                 handle: '.grid-stack-item-content',
                 draggable  : {handle: '.move-widget', scroll: true, appendTo: 'body'},
-//            float : true
+            float : true
 
             };
             $('.grid-stack').gridstack(options);
