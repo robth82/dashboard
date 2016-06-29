@@ -32,6 +32,7 @@ class Widget
     private $refreshAction;
     private $closeAction;
     private $timestampNextRefresh = null;
+    private $icon;
 
     function __construct(array $options)
     {
@@ -46,6 +47,7 @@ class Widget
         $this->refreshAction = $this->options['refreshAction'];
         $this->closeAction = $this->options['closeAction'];
         $this->javascript = $this->options['javascript'];
+        $this->icon = $this->options['icon'];
 
 
 
@@ -86,6 +88,7 @@ class Widget
             'refreshAction' => false,
             'closeAction' => true,
             'javascript' => '',
+            'icon' => 'fa-bell',
         ));
 
         $resolver->setRequired(array('title'));
@@ -284,6 +287,22 @@ class Widget
     public function getJavascript()
     {
         return $this->javascript;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param mixed $icon
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
     }
 
 

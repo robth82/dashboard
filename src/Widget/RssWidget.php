@@ -21,13 +21,15 @@ class RssWidget extends Widget {
         $this->setName('rss');
 
         $this->setUrl($options['url']);
-        $this->setRefreshInterval(5);
         $this->setRefreshAction(true);
     }
 
     protected function configureOptions(OptionsResolverInterface $resolver)
     {
         parent::configureOptions($resolver);
+        $resolver->setDefaults([
+            'refreshInterval' => 300,
+        ]);
         $resolver->setRequired(array('url'));
     }
 
