@@ -26,6 +26,7 @@ class Widget
     private $content;
     protected $options;
     private $ajaxLoad;
+    private $javascript;
     private $refreshInterval;
     private $userOptions = array();
     private $refreshAction;
@@ -44,6 +45,7 @@ class Widget
         $this->refreshInterval = $this->options['refreshInterval'];
         $this->refreshAction = $this->options['refreshAction'];
         $this->closeAction = $this->options['closeAction'];
+        $this->javascript = $this->options['javascript'];
 
 
 
@@ -83,6 +85,7 @@ class Widget
             'refreshInterval' => 0,
             'refreshAction' => false,
             'closeAction' => true,
+            'javascript' => '',
         ));
 
         $resolver->setRequired(array('title'));
@@ -274,5 +277,14 @@ class Widget
         }
         return 0;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getJavascript()
+    {
+        return $this->javascript;
+    }
+
 
 }
