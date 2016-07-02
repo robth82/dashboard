@@ -8,7 +8,7 @@
 
 include('bootstrap.php');
 
-$dashboard = new \Robth82\Dashboard\Dashboard('3', new \Robth82\Dashboard\Store\SessionStore(), $dashboardCollection);
+$dashboard = new \Robth82\Dashboard\Dashboard('3', $store, $dashboardCollection);
 
 switch ($_GET['action']) {
     case 'addWidget':

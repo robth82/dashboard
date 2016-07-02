@@ -6,8 +6,9 @@
     <div class="grid-stack-item-content">
         <div class="panel panel-default ">
             <div class="panel-heading move-widget" >
-                <i class="fa fa-bell fa-fw"></i> {{ widget.title }}
+                <i class="fa {{ widget.icon }} fa-fw"></i> {{ widget.title }}
                 <div class="pull-right">
+                    {{ widget.timestampNextRefresh|date('H:i:s') }}
                     {% block widgetHeaderRight %}{% endblock %}
                     {% if widget.refreshAction %}
                         <i onClick="jQueryDashboard.dashboard('refreshWidget', this);" class="fa fa-times fa-fw fa-refresh"></i>
@@ -30,6 +31,7 @@
 </div>
 
 {% set javascript %}
+    {{ widget.javascript|raw }}
 {#<script>#}
 
     {#$(function () {#}

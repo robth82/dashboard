@@ -127,7 +127,7 @@
 
             jQuery('.grid-stack-item').each( function() {
                 var timestempNextRefresh = jQuery(this).attr('timestampNextRefresh');
-                if(timestempNextRefresh != '' && timestempNextRefresh != undefined) {
+                if(timestempNextRefresh != '' && timestempNextRefresh != undefined && timestempNextRefresh != 0) {
                     if(new Date() > new Date(jQuery(this).attr('timestampNextRefresh') * 1000)) {
                         if(!noRefresh) {
                             methods.refreshWidget(this);

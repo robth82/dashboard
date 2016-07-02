@@ -41,4 +41,6 @@ $function = new Twig_SimpleFunction('testje', function() {
 $twig->addFunction($function);
 
 include('config.php');
+
+$store = new \Robth82\Dashboard\Store\JsonStore(__DIR__ . DIRECTORY_SEPARATOR . 'dashboards.json')
 ?>
