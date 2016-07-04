@@ -1,21 +1,20 @@
 {% extends "layout.twig" %}
 
 {% block javascriptIncludes %}
-    <script src="web/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="web/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-
-    <script src="web/bower_components/lodash/lodash.js"></script>
-    <script src="web/bower_components/gridstack/dist/gridstack.js"></script>
-    <script src="web/dist/js/jquery.dashboard.js"></script>
+    <script src="bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></scri
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/gridstack/dist/gridstack.js"></script>
+    <script src="dist/js/jquery.dashboard.js"></script>
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/highcharts-more.js"></script>
     <script src="http://code.highcharts.com/highcharts-3d.js"></script>
     <script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
 
-    <script src="web/bower_components/flot/jquery.flot.js"></script>
-    <script src="web/bower_components/flot/jquery.flot.pie.js"></script>
-    <script src="web/bower_components/flot/jquery.flot.stack.js"></script>
+    <script src="bower_components/flot/jquery.flot.js"></script>
+    <script src="bower_components/flot/jquery.flot.pie.js"></script>
+    <script src="bower_components/flot/jquery.flot.stack.js"></script>
 {% endblock %}
 
 
@@ -45,18 +44,18 @@
     </div>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-8">
-                <h1 class="page-header">Dashboard room 11</h1>
-            </div>
-            <div class="col-lg-4">
-                <div class="pull-right">
-                    <button id="addWidget" type="button" class="btn btn-primary btn-lg" data-toggle="modal"
-                            data-target="#myModal">Widget Toevoegen
-                    </button>
-                </div>
-            </div>
-        </div>
+        {#<div class="row">#}
+            {#<div class="col-lg-8">#}
+                {#<h3 >Dashboard room 11</h3>#}
+            {#</div>#}
+            {#<div class="col-lg-4">#}
+                {#<div class="pull-right">#}
+                    {#<button id="addWidget" type="button" class="btn btn-primary btn-lg" data-toggle="modal"#}
+                            {#data-target="#myModal">Widget Toevoegen#}
+                    {#</button>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
         <div class="row">
             <div id="dashboard" class="grid-stack">
                 {% for widget in dashboard.widgets %}
@@ -64,6 +63,11 @@
                 {% endfor %}
             </div>
         </div>
+
+
+    </div>
+    <div style="position:absolute;right:50px;bottom:50px">
+        <button id="addWidget" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default btn-circle btn-lg"><i class="glyphicon glyphicon glyphicon-plus"></i></button>
     </div>
 
 {% endblock %}

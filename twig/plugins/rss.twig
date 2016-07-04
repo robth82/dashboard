@@ -3,7 +3,7 @@
 
 {% block widgetContent %}
     <div id="{{ widget.uniqid }}_placeholder" class="demo-placeholder" style="height: 90%">
-        {{ widget.rssfeed|raw }}
+        {{ widget.content|raw }}
     </div>
     {#{{ addJavascript(javascript)  }}#}
 {% endblock %}

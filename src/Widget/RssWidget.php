@@ -21,7 +21,8 @@ class RssWidget extends Widget {
         $this->setName('rss');
 
         $this->setUrl($options['url']);
-        $this->setRefreshAction(true);
+
+        $this->setAjaxLoad(true);
     }
 
     protected function configureOptions(OptionsResolverInterface $resolver)
@@ -47,6 +48,13 @@ class RssWidget extends Widget {
     public function setUrl($url)
     {
         $this->url = $url;
+    }
+
+    public function getContent()
+    {
+        if($this->isRefresh()) {
+            return $this->getRssfeed();
+        }
     }
 
     public function getRssfeed() {

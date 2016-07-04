@@ -34,6 +34,8 @@ class Widget
     private $timestampNextRefresh = null;
     private $icon;
 
+    private $refresh = false;
+
     function __construct(array $options)
     {
         $resolver = new OptionsResolver();
@@ -48,8 +50,6 @@ class Widget
         $this->closeAction = $this->options['closeAction'];
         $this->javascript = $this->options['javascript'];
         $this->icon = $this->options['icon'];
-
-
 
         $this->setName('normal');
         $this->setUniqid(uniqid('db_'));
@@ -122,7 +122,9 @@ class Widget
      */
     public function getContent()
     {
-        $this->prepare();
+        if($this->isRefresh()) {
+            $this->prepare();
+        }
         return $this->content;
     }
 
@@ -275,6 +277,10 @@ class Widget
      */
     public function getTimestampNextRefresh()
     {
+        if($this->ajaxLoad && $this->isRefresh() === false) {
+            return time();
+        }
+
         if($this->refreshInterval > 0) {
             return time() + $this->refreshInterval;
         }
@@ -304,6 +310,23 @@ class Widget
     {
         $this->icon = $icon;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isRefresh()
+    {
+        return $this->refresh;
+    }
+
+    /**
+     * @param boolean $refresh
+     */
+    public function setRefresh($refresh)
+    {
+        $this->refresh = $refresh;
+    }
+
 
 
 }
