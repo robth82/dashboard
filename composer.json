@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "twig/twig": "1.16",
+        "twig/twig": "^1.16",
         "symfony/options-resolver": "^2.4",
         "kriswallsmith/assetic": "^1.2",
         "simplepie/simplepie": "^1.4",
