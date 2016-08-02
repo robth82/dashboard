@@ -12,7 +12,7 @@
     ],
     "require": {
         "twig/twig": "1.16.2",
-        "symfony/options-resolver": "v2.4.10",
+        "symfony/options-resolver": "^2.4",
         "kriswallsmith/assetic": "^1.2",
         "simplepie/simplepie": "^1.4",
 		"jenkins-khan/jenkins-api": "dev-master"
